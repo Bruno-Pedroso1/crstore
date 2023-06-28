@@ -77,15 +77,35 @@ export default {
           to: '/',
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
+          icon: 'mdi-account',
+          title: 'Cadastro de Usuario',
+          to: '/user',
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Cadastro de Categorias',
+          to: '/categories',
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Cadastro de Cupoms',
+          to: '/cupoms',
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Cadastro de Pagamento',
+          to: '/payments',
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Cadastro de Endereços',
+          to: '/adresses',
         },
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js',
+      title: 'CRStore',
     }
   },
 }
