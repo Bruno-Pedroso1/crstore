@@ -150,7 +150,7 @@ export default {
           this.$toast.success('Pagamento Editado')
         }else {
           await this.$api.post(`/payments`, request);
-          this.$toast.success('Pagamento Criado')
+          this.$toast.success('Pagamento Cadastrado')
         }
         this.name = null;
         this.id = null;

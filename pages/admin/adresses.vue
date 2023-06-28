@@ -5,7 +5,7 @@
     <v-row>
       <v-col>
         <h1 class="d-flex align-center flex-column">
-          Cadastro de Usuario
+          Cadastro de Endereços
         </h1>
         <v-row class="d-flex align-center flex column">
         <v-btn
@@ -68,50 +68,66 @@
                 outlined
                 disabled
                 color="green"
-                placeholder="ID do Usuario"
-                label="ID do Usuario"
+                placeholder="ID do Endereço"
+                label="ID do Endereço"
               >
               </v-text-field>
             </v-col>
             <v-col>
               <v-text-field
-                v-model="username"
+                v-model="zipCode"
                 outlined
                 color="green"
-                placeholder="Username"
-                label="Username"
+                placeholder="CEP"
+                label="CEP"
               >
               </v-text-field>
               <v-text-field
-                v-model="cpf"
+                v-model="state"
                 outlined
                 color="green"
-                placeholder="CPF"
-                label="CPF"
+                placeholder="Estado"
+                label="Estado"
               >
               </v-text-field>
               <v-text-field
-                v-model="phone"
+                v-model="city"
                 outlined
                 color="green"
-                placeholder="Telefone"
-                label="Telefone"
-              >
-              </v-text-field> 
-              <v-text-field
-                v-model="email"
-                outlined
-                color="green"
-                placeholder="E-mail"
-                label="E-mail"
+                placeholder="Cidade"
+                label="Cidade"
               >
               </v-text-field>
               <v-text-field
-                v-model="name"
+                v-model="street"
                 outlined
                 color="green"
-                placeholder="Nome do Usuario"
-                label="Nome do Usuario"
+                placeholder="Rua"
+                label="Rua"
+              >
+              </v-text-field>
+              <v-text-field
+                v-model="district"
+                outlined
+                color="green"
+                placeholder="Distrito"
+                label="Distrito"
+              >
+              </v-text-field>
+              <v-text-field
+                v-model="numberForget"
+                outlined
+                color="green"
+                placeholder="Número"
+                label="Número"
+              >
+              </v-text-field>
+              <v-text-field
+                v-model="idUser"
+                outlined
+                color="green"
+                placeholder="ID do Usuário"
+                label="ID do Usuário"
               >
               </v-text-field>
             </v-col>
@@ -142,12 +158,14 @@ export default {
       search: null,
       items: [],
       dialog: false,
-      email: null,
       id: null,
-      username: null,
-      cpf: null,
-      name: null,
-      phone: null,
+      idUser: null,
+      numberForget: null,
+      district: null,
+      street: null,
+      city: null,
+      state: null,
+      zipCode: null,
       headers: [
         {
           text: 'ID',
@@ -155,28 +173,38 @@ export default {
           align: 'center'
         },
         {
-          text: 'Nome',
-          value: 'name',
+          text: 'CEP',
+          value: 'zipCode',
           align: 'center'
         },
         {
-          text: 'Username',
-          value: 'username',
+          text: 'Estado',
+          value: 'state',
           align: 'center'
         },
         {
-          text: 'Telefone',
-          value: 'phone',
+          text: 'Cidade',
+          value: 'city',
           align: 'center'
         },
         {
-          text: 'E-mail',
-          value: 'email',
+          text: 'Rua',
+          value: 'street',
           align: 'center'
         },
         {
-          text: 'CPF',
-          value: 'cpf',
+          text: 'Distrito',
+          value: 'district',
+          align: 'center'
+        },
+        {
+          text: 'Número',
+          value: 'numberForget',
+          align: 'center'
+        },
+        {
+          text: 'ID do Usuário',
+          value: 'idUser',
           align: 'center'
         },
         { text: "", value: "actions", filterable: false},
@@ -190,36 +218,42 @@ export default {
   methods: {
 
     update(item) {
-      this.name = item.name;
       this.id = item.id;
-      this.username = item.username;
-      this.cpf = item.cpf;
-      this.phone = item.phone;
-      this.email = item.email;
+      this.idUser = item.idUser;
+      this.numberForget = item.numberForget;
+      this.district = item.district;
+      this.street = item.street;
+      this.city = item.city;
+      this.state = item.state;
+      this.zipCode = item.zipCode
       this.dialog = true;
     },
 
     async persist() {
       try {
         const request = {
-          name: this.name,
-          cpf: this.cpf,
-          email: this.email,
-          username: this.username,
-          phone: this.phone,
+          zipCode: this.zipCode,
+          state: this.state,
+          city: this.city,
+          street: this.street,
+          district: this.district,
+          numberForget: this.numberForget,
+          idUser: this.idUser,
         }
         if (this.id) {
-          await this.$api.patch(`/user/${this.id}`, request);
-          this.$toast.success('Usuario Editado')
+          await this.$api.patch(`/adresses/${this.id}`, request);
+          this.$toast.success('Endereço Editado')
         }else {
-          await this.$api.post(`/user`, request);
-          this.$toast.success('Usuario Criado')
+          await this.$api.post(`/adresses/`, request);
+          this.$toast.success('Endereço Cadastrado')
         }
-        this.name = null;
-        this.cpf = null;
-        this.email = null;
-        this.username = null;
-        this.phone = null;
+        this.zipCode = null;
+        this.idUser = null;
+        this.numberForget = null;
+        this.district = null;
+        this.street = null;
+        this.city = null;
+        this.state = null;
         this.id = null;
         this.dialog = false;
         await this.getAllUsers();
@@ -230,7 +264,7 @@ export default {
 
     async getAllUsers() {
       try {
-        const response = await this.$api.get('/user');
+        const response = await this.$api.get('/adresses');
         this.items = response.data;
       } catch (error) {
         this.$toast.error('Error')
@@ -239,11 +273,11 @@ export default {
 
     async destroy(item) {
       try {
-      await this.$api.delete(`/user/destroy/${item.id}`);
+      await this.$api.delete(`/adresses/destroy/${item.id}`);
       await this.getAllUsers();
-      this.$toast.success('Usuario Removido')
+      this.$toast.success('Endereço Removido')
     }catch (error){
-      this.$toast.error('Erro ao remover usuario')
+      this.$toast.error('Erro ao remover endereço')
     }
   },
  }

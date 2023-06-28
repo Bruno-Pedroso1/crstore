@@ -150,7 +150,7 @@ export default {
           this.$toast.success('Categoria Editada')
         }else {
           await this.$api.post(`/categories`, request);
-          this.$toast.success('Categoria Criada')
+          this.$toast.success('Categoria Cadastrada')
         }
         this.name = null;
         this.id = null;

@@ -5,7 +5,7 @@
     <v-row>
       <v-col>
         <h1 class="d-flex align-center flex-column">
-          Cadastro de Cupoms
+          Cadastro de Produtos
         </h1>
         <v-row class="d-flex align-center flex column">
         <v-btn
@@ -68,42 +68,50 @@
                 outlined
                 disabled
                 color="green"
-                placeholder="ID do Cupom"
-                label="ID do Cupom"
+                placeholder="ID do Produto"
+                label="ID da Produto"
               >
               </v-text-field>
             </v-col>
             <v-col>
               <v-text-field
-                v-model="code"
+                v-model="name"
                 outlined
                 color="green"
-                placeholder="Código do Cupom"
-                label="Código do Cupom"
+                placeholder="Nome do Produto"
+                label="Nome do Produto"
               >
               </v-text-field>
               <v-text-field
-                v-model="type"
+                v-model="price"
                 outlined
                 color="green"
-                placeholder="Tipo do Cupom"
-                label="Tipo do Cupom"
+                placeholder="Preço do Produto"
+                label="Preço do Produto"
               >
               </v-text-field>
               <v-text-field
-                v-model="value"
+                v-model="image"
                 outlined
                 color="green"
-                placeholder="Valor do cupom"
-                label="Valor do cupom"
+                placeholder="Imagem do Produto"
+                label="Imagem do Produto"
               >
               </v-text-field>
               <v-text-field
-                v-model="uses"
+                v-model="description"
                 outlined
                 color="green"
-                placeholder="Quantidade de Usos"
-                label="Quantidade de Usos"
+                placeholder="Descrição do Produto"
+                label="Descrição do Produto"
+              >
+              </v-text-field>
+              <v-text-field
+                v-model="idCategories"
+                outlined
+                color="green"
+                placeholder="ID da Categoria"
+                label="ID da Categoria"
               >
               </v-text-field>
             </v-col>
@@ -134,11 +142,12 @@ export default {
       search: null,
       items: [],
       dialog: false,
-      code: null,
       id: null,
-      type: null,
-      value: null,
-      uses: null,
+      idCategories: null,
+      description: null,
+      image: null,
+      price: null,
+      name: null,
       headers: [
         {
           text: 'ID',
@@ -146,27 +155,30 @@ export default {
           align: 'center'
         },
         {
-          text: 'Código',
-          value: 'code',
+          text: 'Nome',
+          value: 'name',
           align: 'center'
         },
         {
-          text: 'Valor',
-          value: 'value',
+          text: 'Preço',
+          value: 'price',
           align: 'center'
         },
         {
-          text: 'Tipo',
-          value: 'type',
+          text: 'Imagem',
+          value: 'image',
           align: 'center'
         },
         {
-          text: 'Usos',
-          value: 'uses',
+          text: 'Descrição',
+          value: 'description',
           align: 'center'
         },
-
-
+        {
+          text: 'ID da Categoria',
+          value: 'idCategories',
+          align: 'center'
+        },
         { text: "", value: "actions", filterable: false},
       ]
     }
@@ -178,11 +190,12 @@ export default {
   methods: {
 
     update(item) {
-      this.code = item.code;
+      this.name = item.name;
       this.id = item.id;
-      this.uses = item.uses;
-      this.type = item.type;
-      this.value = item.value;
+      this.idCategories = item.idCategories;
+      this.description = item.description;
+      this.image = item.image;
+      this.price = item.price;
       this.dialog = true;
     },
 
@@ -190,19 +203,24 @@ export default {
       try {
         const request = {
           name: this.name,
+          idCategories: this.idCategories,
+          description: this.description,
+          image: this.image,
+          price: this.price,
         }
         if (this.id) {
-          await this.$api.patch(`/cupoms/${this.id}`, request);
-          this.$toast.success('Cupom Editado')
+          await this.$api.patch(`/products/${this.id}`, request);
+          this.$toast.success('Produto Editado')
         }else {
-          await this.$api.post(`/categories`, request);
-          this.$toast.success('Cupom Criado')
+          await this.$api.post(`/products`, request);
+          this.$toast.success('Produto Cadastrado')
         }
-        this.code = null;
-        this.value = null;
-        this.type = null;
-        this.uses = null;
+        this.name = null;
         this.id = null;
+        this.idCategories = null;
+        this.description = null;
+        this.image = null;
+        this.price = null;
         this.dialog = false;
         await this.getAllUsers();
       } catch (error) {
@@ -212,7 +230,7 @@ export default {
 
     async getAllUsers() {
       try {
-        const response = await this.$api.get('/cupoms');
+        const response = await this.$api.get('/products');
         this.items = response.data;
       } catch (error) {
         this.$toast.error('Error')
@@ -221,11 +239,11 @@ export default {
 
     async destroy(item) {
       try {
-      await this.$api.delete(`/cupoms/destroy/${item.id}`);
+      await this.$api.delete(`/products/destroy/${item.id}`);
       await this.getAllUsers();
-      this.$toast.success('Cupom Removido')
+      this.$toast.success('Produto Removido')
     }catch (error){
-      this.$toast.error('Erro ao remover cupom')
+      this.$toast.error('Erro ao remover produto')
     }
   },
  }
