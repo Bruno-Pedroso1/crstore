@@ -64,7 +64,7 @@
           <v-row>
             <v-col cols="2">
               <v-text-field
-                v-model="id"
+                v-model="idOrder"
                 outlined
                 disabled
                 color="green"
@@ -138,6 +138,22 @@
                 label="ID do Cupom"
               >
               </v-text-field>
+              <v-text-field
+                v-model="priceProducts"
+                outlined
+                color="green"
+                placeholder="Preço do Produto"
+                label="Preço do Produto"
+              >
+              </v-text-field>
+              <v-text-field
+                v-model="quantity"
+                outlined
+                color="green"
+                placeholder="Quantidade"
+                label="Quantidade"
+              >
+              </v-text-field>
             </v-col>
           </v-row>
         </v-card-title>
@@ -164,10 +180,13 @@ export default {
   data () {
     return {
       search: null,
+      itemsOrders: [],
       items: [],
       dialog: false,
-      id: null,
+      idOrder: null,
       name: null,
+      quantity: null,
+      priceProducts: null,
       headers: [
         {
           text: 'ID',
@@ -214,12 +233,28 @@ export default {
           value: 'idCupom',
           align: 'center'
         },
+        {
+          text: 'ID do Produto',
+          value: 'idProduct',
+          align: 'center'
+        },
+        {
+          text: 'Preço do Produto',
+          value: 'priceProducts',
+          align: 'center'
+        },
+        {
+          text: 'Quantidade',
+          value: 'quantity',
+          align: 'center'
+        },
         { text: "", value: "actions", filterable: false},
       ]
     }
   },
   async created() {
     await this.getAllUsers();
+    await this.getAllProductsOrder();
   },
 
   methods: {
@@ -234,6 +269,9 @@ export default {
       this.totalDiscount = item.totalDiscount;
       this.total = item.total;
       this.status = item.status;
+      this.idProduct = item.idProduct
+      this.quantity = item.quantity
+      this.priceProducts = item.priceProducts
       this.dialog = true;
     },
 
@@ -247,7 +285,9 @@ export default {
           idUserCostumer: this.idUserCostumer,
           totalDiscount: this.totalDiscount,
           total: this.total,
-          status: this.status
+          status: this.status,
+          quantity: this.quantity,
+          idProduct: this.idProduct
         }
         if (this.id) {
           await this.$api.patch(`/orders/${this.id}`, request);
@@ -264,7 +304,7 @@ export default {
         this.totalDiscount = null;
         this.total = null;
         this.status = null;
-        this.id = null;
+        this.idOrder = null;
         this.dialog = false;
         await this.getAllUsers();
       } catch (error) {
@@ -281,6 +321,14 @@ export default {
       }
     },
 
+    async getAllProductsOrder() {
+      try {
+        const response = await this.$api.get('/order-products/');
+        this.itemsOrders = response.data;
+      } catch (error) {
+        this.$toast.error('Error')
+      }
+    },
     async destroy(item) {
       try {
       await this.$api.delete(`/orders/destroy/${item.id}`);

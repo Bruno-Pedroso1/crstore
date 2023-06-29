@@ -82,14 +82,15 @@
                 label="Código do Cupom"
               >
               </v-text-field>
-              <v-text-field
+              <v-autocomplete
                 v-model="type"
+                :items="tipo"
                 outlined
                 color="green"
                 placeholder="Tipo do Cupom"
                 label="Tipo do Cupom"
               >
-              </v-text-field>
+              </v-autocomplete>
               <v-text-field
                 v-model="value"
                 outlined
@@ -131,6 +132,7 @@ export default {
   name: 'Index',
   data () {
     return {
+      tipo: ['Reais', 'Porcentagem'],
       search: null,
       items: [],
       dialog: false,
@@ -192,7 +194,7 @@ export default {
           code: this.code,
           uses: this.uses,
           type: this.type,
-          value: this.value
+          value: this.value,
         }
         if (this.id) {
           await this.$api.patch(`/cupoms/${this.id}`, request);
