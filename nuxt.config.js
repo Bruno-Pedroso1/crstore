@@ -27,6 +27,7 @@ export default {
   plugins: [
     '@/plugins/axios.js',
     '@/plugins/vue-toastification.js',
+    '@/plugins/mask.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

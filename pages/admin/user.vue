@@ -84,17 +84,19 @@
               </v-text-field>
               <v-text-field
                 v-model="cpf"
+                v-mask="'###.###.###-##'"
                 outlined
                 color="green"
-                placeholder="CPF"
+                placeholder="###.###.###-##"
                 label="CPF"
               >
               </v-text-field>
               <v-text-field
                 v-model="phone"
+                v-mask="'(##) #####-####'"
                 outlined
                 color="green"
-                placeholder="Telefone"
+                placeholder="(##) #####-####"
                 label="Telefone"
               >
               </v-text-field> 
