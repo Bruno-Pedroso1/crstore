@@ -37,25 +37,20 @@
       </v-btn>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer />
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>mdi-menu</v-icon>
+      <v-btn
+      href="/login">
+        <v-icon>
+          mdi-account
+        </v-icon>
+        Fazer Login
       </v-btn>
+
     </v-app-bar>
     <v-main>
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light> mdi-repeat </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
     <v-footer :absolute="!fixed" app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
@@ -71,46 +66,17 @@ export default {
       drawer: false,
       fixed: false,
       items: [
-        {
-          icon: 'mdi-home-circle',
+      {
+          icon: 'mdi-home-account',
           title: 'Página Inicial CRStore',
           to: '/',
         },
         {
-          icon: 'mdi-account',
-          title: 'Cadastro de Usuario',
-          to: '/admin/user',
+          icon: 'mdi-shield-crown',
+          title: 'ADMIN CRStore',
+          to: '/admin/adminFront',
         },
-        {
-          icon: 'mdi-library-shelves',
-          title: 'Cadastro de Categorias',
-          to: '/admin/categories',
-        },
-        {
-          icon: 'mdi-cart-percent',
-          title: 'Cadastro de Cupoms',
-          to: '/admin/cupoms',
-        },
-        {
-          icon: 'mdi-credit-card-outline',
-          title: 'Cadastro de Pagamento',
-          to: '/admin/payments',
-        },
-        {
-          icon: 'mdi-home-account',
-          title: 'Cadastro de Endereços',
-          to: '/admin/adresses',
-        },
-        {
-          icon: 'mdi-shopping-outline',
-          title: 'Cadastro de Produtos',
-          to: '/admin/products',
-        },
-        {
-          icon: 'mdi-cart',
-          title: 'Cadastro de Pedidos',
-          to: '/admin/orders',
-        },
+
       ],
       miniVariant: false,
       right: true,

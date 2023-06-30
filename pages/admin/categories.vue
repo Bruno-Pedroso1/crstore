@@ -43,6 +43,8 @@
               small
               color="green"
               @click="update(item)"
+              @click.ctrl="$toast.info('quem leu é corno')"
+            
             >
               mdi-pencil
             </v-icon>
@@ -179,6 +181,7 @@ export default {
       this.$toast.error('Erro ao remover categoria')
     }
   },
+
  }
 }
 </script>

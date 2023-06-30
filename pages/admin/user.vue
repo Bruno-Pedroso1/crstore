@@ -92,11 +92,11 @@
               >
               </v-text-field>
               <v-text-field
-                v-model="phone"
-                v-mask="'(##) #####-####'"
+              v-model="phone"
+              v-mask="'(##)#####-####'"
                 outlined
                 color="green"
-                placeholder="(##) #####-####"
+                placeholder="(##)#####-####"
                 label="Telefone"
               >
               </v-text-field> 
@@ -116,6 +116,15 @@
                 label="Nome do Usuario"
               >
               </v-text-field>
+              <v-autocomplete
+                v-model="role"
+                :items="rolea"
+                outlined
+                color="green"
+                placeholder="Função"
+                label="Função"
+              >
+              </v-autocomplete>
             </v-col>
           </v-row>
         </v-card-title>
@@ -141,6 +150,7 @@ export default {
   name: 'Index',
   data () {
     return {
+      rolea: ['Comprador', 'Entregador'],
       search: null,
       items: [],
       dialog: false,
@@ -150,6 +160,7 @@ export default {
       cpf: null,
       name: null,
       phone: null,
+      role: null,
       headers: [
         {
           text: 'ID',
@@ -181,6 +192,11 @@ export default {
           value: 'cpf',
           align: 'center'
         },
+        {
+          text: 'Função',
+          value: 'role',
+          align: 'center'
+        },
         { text: "", value: "actions", filterable: false},
       ]
     }
@@ -198,6 +214,7 @@ export default {
       this.cpf = item.cpf;
       this.phone = item.phone;
       this.email = item.email;
+      this.role = item.role
       this.dialog = true;
     },
 
@@ -209,6 +226,7 @@ export default {
           email: this.email,
           username: this.username,
           phone: this.phone,
+          role: this.role
         }
         if (this.id) {
           await this.$api.patch(`/user/${this.id}`, request);
@@ -223,6 +241,7 @@ export default {
         this.username = null;
         this.phone = null;
         this.id = null;
+        this.role = null;
         this.dialog = false;
         await this.getAllUsers();
       } catch (error) {
