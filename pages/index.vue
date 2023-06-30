@@ -1,8 +1,193 @@
 <template>
-  <div class="d-flex justify-center" style="width: 100%; height: 75vh;">
-  <img src="../layouts/loja.png" alt="" srcset="">
-</div>
+  <v-container>
+    <v-row class="d-flex justify-center">
+      <div class="text-center">
+        <h1>Bem-vindo Admin</h1>
+        <img src="../layouts/loja3.png" style="width: 190px; height: 90px;">
+      </div>
+    </v-row>
+    <v-row>
+      <v-col>
+      <v-card
+        class="mx-auto"
+    max-width="344"
+    outlined>
+    <v-list-item-content>
+        <v-list-item-title class="text-h5 mb-1">
+          Cadastrar Usuario
+          <v-icon size="35"> mdi-account</v-icon>
+        </v-list-item-title>
+      </v-list-item-content>
+      <v-card-actions>
+      <v-btn
+        href="/admin/user"
+        outlined
+        rounded
+        text
+        block
+      >
+        Acessar
+      </v-btn>
+    </v-card-actions>
+      </v-card>
+    </v-col>
+    <v-col>
+      <v-card
+        class="mx-auto"
+    max-width="344"
+    outlined>
+    <v-list-item-content>
+        <v-list-item-title class="text-h5 mb-1">
+          Cadastrar Categoria
+          <v-icon size="35"> mdi-library-shelves</v-icon>
+        </v-list-item-title>
+      </v-list-item-content>
+      <v-card-actions>
+      <v-btn
+      href="/admin/categories"
+        outlined
+        rounded
+        text
+        block
+      >
+        Acessar
+      </v-btn>
+    </v-card-actions>
+      </v-card>
+    </v-col>
+    <v-col>
+      <v-card
+        class="mx-auto"
+    max-width="344"
+    outlined>
+    <v-list-item-content>
+        <v-list-item-title class="text-h5 mb-1">
+          Cadastrar Cupom
+          <v-icon size="35"> mdi-cart-percent</v-icon>
+        </v-list-item-title>
+      </v-list-item-content>
+      <v-card-actions>
+      <v-btn
+      href="/admin/cupoms"
+        outlined
+        rounded
+        text
+        block
+      >
+        Acessar
+      </v-btn>
+    </v-card-actions>
+      </v-card>
+    </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-card
+        class="mx-auto"
+    max-width="344"
+    outlined>
+    <v-list-item-content>
+        <v-list-item-title class="text-h5 mb-1">
+          Cadastrar Pagamento
+          <v-icon size="35"> mdi-credit-card-outline</v-icon>
+        </v-list-item-title>
+      </v-list-item-content>
+      <v-card-actions>
+      <v-btn
+      href="/admin/payments"
+        outlined
+        rounded
+        text
+        block
+      >
+        Acessar
+      </v-btn>
+    </v-card-actions>
+      </v-card>
+      </v-col>
+      <v-col>
+        <v-card
+        class="mx-auto"
+    max-width="344"
+    outlined>
+    <v-list-item-content>
+        <v-list-item-title class="text-h5 mb-1">
+          Cadastrar Endereços
+          <v-icon size="35"> mdi-home-account</v-icon>
+        </v-list-item-title>
+      </v-list-item-content>
+      <v-card-actions>
+      <v-btn
+      href="/admin/adresses"
+        outlined
+        rounded
+        text
+        block
+      >
+        Acessar
+      </v-btn>
+    </v-card-actions>
+      </v-card>
+      </v-col>
+      <v-col>
+        <v-card
+        class="mx-auto"
+    max-width="344"
+    outlined>
+    <v-list-item-content>
+        <v-list-item-title class="text-h5 mb-1">
+          Cadastrar Produtos
+          <v-icon size="35"> mdi-shopping-outline</v-icon>
+        </v-list-item-title>
+      </v-list-item-content>
+      <v-card-actions>
+      <v-btn
+      href="/admin/products"
+        outlined
+        rounded
+        text
+        block
+      >
+        Acessar
+      </v-btn>
+    </v-card-actions>
+      </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-card
+        class="mx-auto"
+    max-width="344"
+    outlined>
+    <v-list-item-content>
+        <v-list-item-title class="text-h5 mb-1">
+          Cadastrar Pedidos
+          <v-icon size="35"> mdi-cart</v-icon>
+        </v-list-item-title>
+      </v-list-item-content>
+      <v-card-actions>
+      <v-btn
+        href="/admin/orders"
+        outlined
+        rounded
+        text
+        block
+      >
+        Acessar
+      </v-btn>
+    </v-card-actions>
+      </v-card>
+      </v-col>
+    </v-row>
+    
+    
+  </v-container>
+  
 </template>
+
+
+
 
 <script>
 export default {

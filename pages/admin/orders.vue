@@ -138,22 +138,7 @@
                 label="ID do Cupom"
               >
               </v-text-field>
-              <v-text-field
-                v-model="priceProducts"
-                outlined
-                color="green"
-                placeholder="Preço do Produto"
-                label="Preço do Produto"
-              >
-              </v-text-field>
-              <v-text-field
-                v-model="quantity"
-                outlined
-                color="green"
-                placeholder="Quantidade"
-                label="Quantidade"
-              >
-              </v-text-field>
+
             </v-col>
           </v-row>
         </v-card-title>
@@ -180,13 +165,12 @@ export default {
   data () {
     return {
       search: null,
-      itemsOrders: [],
+      itemsOrder: [],
       items: [],
       dialog: false,
       idOrder: null,
       name: null,
-      quantity: null,
-      priceProducts: null,
+
       headers: [
         {
           text: 'ID',
@@ -232,29 +216,13 @@ export default {
           text: 'ID do Cupom',
           value: 'idCupom',
           align: 'center'
-        },
-        {
-          text: 'ID do Produto',
-          value: 'idProduct',
-          align: 'center'
-        },
-        {
-          text: 'Preço do Produto',
-          value: 'priceProducts',
-          align: 'center'
-        },
-        {
-          text: 'Quantidade',
-          value: 'quantity',
-          align: 'center'
-        },
+        }, 
         { text: "", value: "actions", filterable: false},
       ]
     }
   },
   async created() {
     await this.getAllUsers();
-    await this.getAllProductsOrder();
   },
 
   methods: {
@@ -269,9 +237,6 @@ export default {
       this.totalDiscount = item.totalDiscount;
       this.total = item.total;
       this.status = item.status;
-      this.idProduct = item.idProduct
-      this.quantity = item.quantity
-      this.priceProducts = item.priceProducts
       this.dialog = true;
     },
 
@@ -286,8 +251,6 @@ export default {
           totalDiscount: this.totalDiscount,
           total: this.total,
           status: this.status,
-          quantity: this.quantity,
-          idProduct: this.idProduct
         }
         if (this.id) {
           await this.$api.patch(`/orders/${this.id}`, request);
@@ -321,14 +284,14 @@ export default {
       }
     },
 
-    async getAllProductsOrder() {
-      try {
-        const response = await this.$api.get('/order-products/');
-        this.itemsOrders = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
+    // async getAllProductsOrder() {
+    //   try {
+    //     const response = await this.$api.get('/order-products/');
+    //     this.itemsOrder = response.data; 
+    //   } catch (error) {
+    //     this.$toast.error('Error')
+    //   }
+    // },
     async destroy(item) {
       try {
       await this.$api.delete(`/orders/destroy/${item.id}`);
