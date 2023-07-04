@@ -121,30 +121,39 @@
                 label="Nome do Entregador"
               >
               </v-autocomplete>
-              <v-text-field
+              <v-autocomplete
                 v-model="idAdress"
+                item-value="id"
+                item-text="id"
+                :items="adress"
                 outlined
                 color="green"
                 placeholder="ID do Endereço"
                 label="ID do Endereço"
               >
-              </v-text-field>
-              <v-text-field
+              </v-autocomplete>
+              <v-autocomplete
                 v-model="idPayment"
+                item-value="id"
+                item-text="id"
+                :items="pagamento"
                 outlined
                 color="green"
                 placeholder="ID do Pagamento"
                 label="ID do Pagamento"
               >
-              </v-text-field>
-              <v-text-field
+              </v-autocomplete>
+              <v-autocomplete
                 v-model="idCupom"
+                item-value="id"
+                item-text="code"
+                :items="cupoms"
                 outlined
                 color="green"
-                placeholder="ID do Cupom"
-                label="ID do Cupom"
+                placeholder="Código do Cupom"
+                label="Código do Cupom"
               >
-              </v-text-field>
+              </v-autocomplete>
 
             </v-col>
           </v-row>
@@ -173,12 +182,15 @@ export default {
   data () {
     return {
       search: null,
+      cupoms: [],
+      pagamento: [],
       st: ['Finalizado', 'Em trânsito', 'Pronto para retirada', 'Cancelado'],
       items: [],
       usuario: [],
       dialog: false,
       idOrder: null,
       name: null,
+      adress: [],
 
       headers: [
         {
@@ -233,6 +245,9 @@ export default {
   async created() {
     await this.getAllOrders();
     await this.getUsuarios();
+    await this.getAdress();
+    await this.getPayment();
+    await this.getCupom();
   },
 
   methods: {
@@ -309,6 +324,31 @@ export default {
       try {
         const response = await this.$api.get('/user');
         this.usuario = response.data;
+      } catch (error) {
+        this.$toast.error('Error')
+      }
+    },
+    async getAdress() {
+      try {
+        const response = await this.$api.get('/adresses');
+        this.adress = response.data;
+      } catch (error) {
+        this.$toast.error('Error')
+      }
+    },
+
+    async getPayment() {
+      try {
+        const response = await this.$api.get('/payments');
+        this.pagamento = response.data;
+      } catch (error) {
+        this.$toast.error('Error')
+      }
+    },
+    async getCupom() {
+      try {
+        const response = await this.$api.get('/cupoms');
+        this.cupoms = response.data;
       } catch (error) {
         this.$toast.error('Error')
       }

@@ -108,7 +108,7 @@ export default {
   name: 'Index',
   data () {
     return {
-      met: ['PIX','Débito','Crédito'],
+      met: ['PIX','Débito','Crédito', 'Dinheiro'],
       search: null,
       items: [],
       dialog: false,

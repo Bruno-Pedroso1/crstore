@@ -5,15 +5,117 @@
           Bem Vindos a CRStore
         </h1>
     </v-div>
-    <h5 class="d-flex justify-center">Abaixo estão os Produtos disponiveis</h5>
+    <h5
+    class="d-flex justify-center"
+    >Abaixo estão os Produtos disponiveis
+
+    </h5>
     <v-row class="mt-5">
       <v-col>
+        <v-dialog v-model="pagamentos">
+          <v-card>
+        <v-text-field
+        v-model="pag"
+        class="mt-1"
+                outlined
+                color="black"
+                placeholder="Forma de Pagamento"
+                label="Forma de Pagamento"
+                >
+              </v-text-field>
+              <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green"
+            block
+
+          >
+            Cadastrar Pagamento
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+        </v-dialog>
+      <v-dialog
+      v-model="dialog"
+      >
+      <v-card>
+        <v-text-field
+        v-model="quantidade"
+        class="mt-1"
+                outlined
+                color="black"
+                placeholder="Informe a quantidade"
+                label="Informe a quantidade"
+                >
+              </v-text-field>
+              Total= R${{ quantidade * preçotec}}
+              <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green"
+            block
+            @click="pagamentos=true, dialog=false"
+          >
+            Comprar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+      </v-dialog>
+      <v-dialog
+      v-model="dialogo"
+      overlay-color="black">
+        <v-card>
+        <v-text-field
+        v-model="quantidade"
+        class="mt-1"
+                outlined
+                color="black"
+                placeholder="Informe a quantidade"
+                label="Informe a quantidade"
+                >
+              </v-text-field>
+              Total= R${{ quantidade * preçomo}}
+              <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green"
+            block
+          >
+            Comprar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+        </v-dialog>
+        <v-dialog
+  v-model="dialogoo"
+        overlay-color="black">
+        <v-card>
+        <v-text-field
+        v-model="quantidade"
+        class="mt-1"
+                outlined
+                color="black"
+                placeholder="Informe a quantidade"
+                label="Informe a quantidade"
+                >
+              </v-text-field>
+              Total= R${{ quantidade * preçohed}}
+              <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green"
+            block
+          >
+            Comprar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+        </v-dialog>
         <v-card
         class="mx-auto"
         max-width="344"
         outlined
   >
-    </div>
     <v-list-item three-line>
       <v-list-item-content>
         <v-list-item-title class="text-h5 mb-1">
@@ -28,11 +130,13 @@
     </v-list-item>
 
     <v-card-actions>
-      <h3 class="mr-5">Preço:R$57.90</h3>
+      <h4>Preço: R$ {{ preçomo }} </h4>
       <v-btn
+      class="ml-5"
       outlined
       rounded
       color="green"
+      @click="dialogo = true; clear()"
       ><v-icon>
         mdi-cart
       </v-icon>
@@ -46,7 +150,7 @@
     class="mx-auto"
     max-width="344"
     outlined
-  >
+    >
     <v-list-item three-line>
       <v-list-item-content>
         <v-list-item-title class="text-h5 mb-1">
@@ -57,20 +161,18 @@
         height="300" 
         src="https://m.media-amazon.com/images/I/61Tn5a431IL._AC_UL400_.jpg"/>
       </v-list-item-content>
-
-
     </v-list-item>
-
     <v-card-actions>
-<h3 class="mr-5">Preço:R$170.00</h3>
+<h4>Preço: R$ {{ preçotec }} </h4>
       <v-btn
+      class="ml-5"
         outlined
         rounded
-        
         color="green"
-      ><v-icon>
-        mdi-cart
-      </v-icon>
+        @click="dialog=true;clear()"
+        ><v-icon>
+          mdi-cart
+        </v-icon>
         Compre Agora
       </v-btn>
     </v-card-actions>
@@ -94,11 +196,13 @@
       </v-list-item-content>
     </v-list-item>
     <v-card-actions>
-      <h3 class="mr-5">Preço:R$70.00</h3>
+      <h4>Preço: R$ {{preçohed }} </h4>
       <v-btn
+      class="ml-5"
         outlined
         rounded
         color="green"
+        @click="dialogoo=true; clear()"
       ><v-icon>
         mdi-cart
       </v-icon>
@@ -108,13 +212,34 @@
   </v-card>
 </v-col>
 </v-row>
-  </v-container>
+</v-container>
 </template>
 
 <script >
 
 export default {
-  
+  data(){
+    return{
+      pag:null,
+      pagamentos:false,
+      dialogo: false,
+      dialogoo: false,
+      quantidade: null,
+      dialog: false,
+      total: null,
+      preçotec: 170.00,
+      preçohed: 70.00,
+      preçomo: 57.90,
+    }
+  },
+
+  methods: {
+
+    clear(){
+      this.total = null;
+      this.quantidade = null;
+    },
+  }
 }
 </script>
 

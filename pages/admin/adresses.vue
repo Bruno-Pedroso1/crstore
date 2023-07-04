@@ -122,14 +122,17 @@
                 label="Número"
               >
               </v-text-field>
-              <v-text-field
+              <v-autocomplete
                 v-model="idUser"
+                item-value="id"
+                item-text="name"
+                :items="usuario"
                 outlined
                 color="green"
-                placeholder="ID do Usuário"
-                label="ID do Usuário"
+                placeholder="Nome do Usuário"
+                label="Nome do Usuário"
               >
-              </v-text-field>
+              </v-autocomplete>
             </v-col>
           </v-row>
         </v-card-title>
@@ -156,6 +159,7 @@ export default {
   data () {
     return {
       search: null,
+      usuario: [],
       items: [],
       dialog: false,
       id: null,
@@ -213,6 +217,7 @@ export default {
   },
   async created() {
     await this.getAllUsers();
+    await this.getUsuario();
   },
 
   methods: {
@@ -276,6 +281,14 @@ export default {
       try {
         const response = await this.$api.get('/adresses');
         this.items = response.data;
+      } catch (error) {
+        this.$toast.error('Error')
+      }
+    },
+    async getUsuario() {
+      try {
+        const response = await this.$api.get('/user');
+        this.usuario = response.data;
       } catch (error) {
         this.$toast.error('Error')
       }
