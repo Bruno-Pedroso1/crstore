@@ -33,7 +33,7 @@
           </v-row>
         </v-form>
         <v-btn 
-        class="mt-4"
+        class="mt-5"
         href="/"
         >Voltar a página inicial</v-btn>
   </v-app>

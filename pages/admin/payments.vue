@@ -12,7 +12,7 @@
           fab
           small
           color="green"
-          @click="dialog = true"
+          @click="dialog = true; clear()"
         >
           <v-icon>
             mdi-plus
@@ -74,14 +74,15 @@
               </v-text-field>
             </v-col>
             <v-col>
-              <v-text-field
+              <v-autocomplete
                 v-model="name"
                 outlined
                 color="green"
-                placeholder="Nome do Pagamento"
-                label="Nome do Pagamento"
+                placeholder="Método de Pagamento"
+                label="Método de Pagamento"
+                :items="met"
               >
-              </v-text-field>
+              </v-autocomplete>
             </v-col>
           </v-row>
         </v-card-title>
@@ -107,6 +108,7 @@ export default {
   name: 'Index',
   data () {
     return {
+      met: ['PIX','Débito','Crédito'],
       search: null,
       items: [],
       dialog: false,
@@ -133,6 +135,11 @@ export default {
   },
 
   methods: {
+
+    clear() {
+      this.name = null;
+      this.id = null;
+    },
 
     update(item) {
       this.name = item.name;

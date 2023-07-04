@@ -12,7 +12,7 @@
           fab
           small
           color="green"
-          @click="dialog = true"
+          @click="dialog = true; clear()"
         >
           <v-icon>
             mdi-plus
@@ -125,7 +125,39 @@
                 label="Função"
               >
               </v-autocomplete>
-            </v-col>
+              <v-text-field
+                v-model="passwordHash"
+                outlined
+                color="green"
+                placeholder="Password Hash"
+                label="Password Hash"
+              >
+            </v-text-field>
+            <v-text-field
+                v-model="token"
+                outlined
+                color="green"
+                placeholder="Token"
+                label="Token"
+              >
+              </v-text-field>
+              <v-text-field
+                v-model="cart"
+                outlined
+                color="green"
+                placeholder="Carrinho"
+                label="Carrinho"
+              >
+              </v-text-field>
+              <v-text-field
+                v-model="recuperation"
+                outlined
+                color="green"
+                placeholder="Recuperação"
+                label="Recuperação"
+              >
+              </v-text-field>
+          </v-col>
           </v-row>
         </v-card-title>
         <v-card-actions>
@@ -197,6 +229,26 @@ export default {
           value: 'role',
           align: 'center'
         },
+        {
+          text: 'Password Hash',
+          value: 'passwordHash',
+          align: 'center'
+        },
+        {
+          text: 'Token',
+          value: 'token',
+          align: 'center'
+        },
+        {
+          text: 'Carrinho',
+          value: 'cart',
+          align: 'center'
+        },
+        {
+          text: 'Recuperação',
+          value: 'recuperation',
+          align: 'center'
+        },
         { text: "", value: "actions", filterable: false},
       ]
     }
@@ -207,6 +259,20 @@ export default {
 
   methods: {
 
+    clear() {
+      this.name = null;
+      this.id = null;
+      this.username = null;
+      this.cpf = null;
+      this.phone = null;
+      this.email = null;
+      this.role = null;
+      this.passwordHash = null;
+      this.cart = null;
+      this.token = null;
+      this.recuperation = null;
+    },
+    
     update(item) {
       this.name = item.name;
       this.id = item.id;
@@ -214,34 +280,37 @@ export default {
       this.cpf = item.cpf;
       this.phone = item.phone;
       this.email = item.email;
-      this.role = item.role
+      this.role = item.role;
+      this.passwordHash = item.passwordHash;
+      this.cart = item.cart;
+      this.token = item.token;
+      this.recuperation = item.recuperation;
       this.dialog = true;
     },
 
     async persist() {
       try {
+        this.clear();
         const request = {
           name: this.name,
           cpf: this.cpf,
           email: this.email,
           username: this.username,
           phone: this.phone,
-          role: this.role
+          role: this.role,
+          passwordHash: this.passwordHash,
+          cart: this.cart,
+          token: this.token,
+          recuperation: this.recuperation
         }
         if (this.id) {
           await this.$api.patch(`/user/${this.id}`, request);
           this.$toast.success('Usuario Editado')
         }else {
-          await this.$api.post(`/user`, request);
+          await this.$api.post(`/user/`, request);
           this.$toast.success('Usuario Cadastrado')
         }
-        this.name = null;
-        this.cpf = null;
-        this.email = null;
-        this.username = null;
-        this.phone = null;
-        this.id = null;
-        this.role = null;
+        this.clear();
         this.dialog = false;
         await this.getAllUsers();
       } catch (error) {
@@ -267,7 +336,7 @@ export default {
       this.$toast.error('Erro ao remover usuario')
     }
   },
- }
+}
 }
 </script>
 

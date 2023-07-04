@@ -12,7 +12,7 @@
           fab
           small
           color="green"
-          @click="dialog = true"
+          @click="dialog = true; clear()"
         >
           <v-icon>
             mdi-plus
@@ -74,14 +74,15 @@
               </v-text-field>
             </v-col>
             <v-col>
-              <v-text-field
+              <v-autocomplete
                 v-model="status"
+                :items="st"
                 outlined
                 color="green"
                 placeholder="Status do Pedido"
                 label="Status do Pedido"
               >
-              </v-text-field>
+              </v-autocomplete>
               <v-text-field
                 v-model="total"
                 outlined
@@ -98,22 +99,28 @@
                 label="Valor do desconto"
               >
               </v-text-field>
-              <v-text-field
+              <v-autocomplete
                 v-model="idUserCostumer"
                 outlined
                 color="green"
-                placeholder="ID do Consumidor"
-                label="ID do Consumidor"
+                item-text="name"
+                item-value="id"
+                placeholder="ID do Comprador"
+                :items="usuario.filter(user => user.role === 'Comprador')"
+                label="Nome do Comprador"
               >
-              </v-text-field>
-              <v-text-field
+              </v-autocomplete>
+              <v-autocomplete
                 v-model="idUserDeliver"
                 outlined
+                item-text="name"
+                item-value="id"
+                :items="usuario.filter(user => user.role === 'Entregador')"
                 color="green"
-                placeholder="ID do Entregador"
-                label="ID do Entregador"
+                placeholder="Nome do Entregador"
+                label="Nome do Entregador"
               >
-              </v-text-field>
+              </v-autocomplete>
               <v-text-field
                 v-model="idAdress"
                 outlined
@@ -160,13 +167,15 @@
 </template>
 
 <script>
+
 export default {
   name: 'Index',
   data () {
     return {
       search: null,
-      itemsOrder: [],
+      st: ['Finalizado', 'Em trânsito', 'Pronto para retirada', 'Cancelado'],
       items: [],
+      usuario: [],
       dialog: false,
       idOrder: null,
       name: null,
@@ -193,7 +202,7 @@ export default {
           align: 'center'
         },
         {
-          text: 'ID do Consumidor',
+          text: 'ID do Comprador',
           value: 'idUserCostumer',
           align: 'center'
         },
@@ -222,11 +231,23 @@ export default {
     }
   },
   async created() {
-    await this.getAllUsers();
+    await this.getAllOrders();
+    await this.getUsuarios();
   },
 
   methods: {
 
+    clear() {
+      this.idCupom = null;
+      this.id = null;
+      this.idPayment = null;
+      this.idAdress = null;
+      this.idUserCostumer = null;
+      this.idUserDeliver = null;
+      this.totalDiscount = null;
+      this.total = null;
+      this.status =null;
+    },
     update(item) {
       this.idCupom = item.idCupom;
       this.id = item.id;
@@ -269,13 +290,13 @@ export default {
         this.status = null;
         this.idOrder = null;
         this.dialog = false;
-        await this.getAllUsers();
+        await this.getAllOrders();
       } catch (error) {
         this.$toast.error('Erro')
       }
     },
 
-    async getAllUsers() {
+    async getAllOrders() {
       try {
         const response = await this.$api.get('/orders');
         this.items = response.data;
@@ -284,6 +305,14 @@ export default {
       }
     },
 
+    async getUsuarios() {
+      try {
+        const response = await this.$api.get('/user');
+        this.usuario = response.data;
+      } catch (error) {
+        this.$toast.error('Error')
+      }
+    },
     // async getAllProductsOrder() {
     //   try {
     //     const response = await this.$api.get('/order-products/');
@@ -295,7 +324,7 @@ export default {
     async destroy(item) {
       try {
       await this.$api.delete(`/orders/destroy/${item.id}`);
-      await this.getAllUsers();
+      await this.getAllOrders();
       this.$toast.success('Pedido Removido')
     }catch (error){
       this.$toast.error('Erro ao remover pedido')

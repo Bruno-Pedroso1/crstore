@@ -13,7 +13,7 @@
     max-width="344"
     outlined>
     <v-list-item-content>
-        <v-list-item-title class="text-h5 mb-1">
+        <v-list-item-title class="text-h5 mb-1 text-center">
           Cadastrar Usuario
           <v-icon size="35"> mdi-account</v-icon>
         </v-list-item-title>
@@ -37,7 +37,7 @@
     max-width="344"
     outlined>
     <v-list-item-content>
-        <v-list-item-title class="text-h5 mb-1">
+        <v-list-item-title class="text-h5 mb-1 text-center">
           Cadastrar Categoria
           <v-icon size="35"> mdi-library-shelves</v-icon>
         </v-list-item-title>
@@ -61,7 +61,7 @@
     max-width="344"
     outlined>
     <v-list-item-content>
-        <v-list-item-title class="text-h5 mb-1">
+        <v-list-item-title class="text-h5 mb-1 text-center">
           Cadastrar Cupom
           <v-icon size="35"> mdi-cart-percent</v-icon>
         </v-list-item-title>
@@ -87,7 +87,7 @@
     max-width="344"
     outlined>
     <v-list-item-content>
-        <v-list-item-title class="text-h5 mb-1">
+        <v-list-item-title class="text-h5 mb-1 text-center">
           Cadastrar Pagamento
           <v-icon size="35"> mdi-credit-card-outline</v-icon>
         </v-list-item-title>
@@ -111,7 +111,7 @@
     max-width="344"
     outlined>
     <v-list-item-content>
-        <v-list-item-title class="text-h5 mb-1">
+        <v-list-item-title class="text-h5 mb-1 text-center">
           Cadastrar Endereço
           <v-icon size="35"> mdi-home-account</v-icon>
         </v-list-item-title>
@@ -135,7 +135,7 @@
     max-width="344"
     outlined>
     <v-list-item-content>
-        <v-list-item-title class="text-h5 mb-1">
+        <v-list-item-title class="text-h5 mb-1 text-center">
           Cadastrar Produto
           <v-icon size="35"> mdi-shopping-outline</v-icon>
         </v-list-item-title>
@@ -161,7 +161,7 @@
     max-width="344"
     outlined>
     <v-list-item-content>
-        <v-list-item-title class="text-h5 mb-1">
+        <v-list-item-title class="text-h5 mb-1 text-center">
           Cadastrar Pedido
           <v-icon size="35"> mdi-cart</v-icon>
         </v-list-item-title>

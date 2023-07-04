@@ -12,7 +12,7 @@
           fab
           small
           color="green"
-          @click="dialog = true"
+          @click="dialog = true; clear()"
         >
           <v-icon>
             mdi-plus
@@ -106,14 +106,17 @@
                 label="Descrição do Produto"
               >
               </v-text-field>
-              <v-text-field
+              <v-autocomplete
                 v-model="idCategories"
+                item-text="name"
+                item-value="id"
+                :items="categorias"
                 outlined
                 color="green"
                 placeholder="ID da Categoria"
                 label="ID da Categoria"
               >
-              </v-text-field>
+              </v-autocomplete>
             </v-col>
           </v-row>
         </v-card-title>
@@ -148,6 +151,7 @@ export default {
       image: null,
       price: null,
       name: null,
+      categorias: [],
       headers: [
         {
           text: 'ID',
@@ -185,9 +189,18 @@ export default {
   },
   async created() {
     await this.getAllUsers();
+    await this.getAllCategories();
   },
 
   methods: {
+    clear() {
+      this.name = null;
+      this.id = null;
+      this.idCategories = null;
+      this.description = null;
+      this.image = null;
+      this.price = null;
+    },
 
     update(item) {
       this.name = item.name;
@@ -237,6 +250,15 @@ export default {
       }
     },
 
+    async getAllCategories() {
+      try {
+        const response = await this.$api.get('/categories');
+        this.categorias = response.data;
+      } catch (error) {
+        this.$toast.error('Error')
+      }
+    },
+
     async destroy(item) {
       try {
       await this.$api.delete(`/products/destroy/${item.id}`);
@@ -246,7 +268,7 @@ export default {
       this.$toast.error('Erro ao remover produto')
     }
   },
- }
+}
 }
 </script>
 

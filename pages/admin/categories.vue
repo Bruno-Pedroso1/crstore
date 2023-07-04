@@ -12,7 +12,7 @@
           fab
           small
           color="green"
-          @click="dialog = true"
+          @click="dialog = true; clear()"
         >
           <v-icon>
             mdi-plus
@@ -135,6 +135,11 @@ export default {
   },
 
   methods: {
+
+    clear() {
+      this.name = null;
+      this.id = null;
+    },
 
     update(item) {
       this.name = item.name;

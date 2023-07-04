@@ -1,20 +1,19 @@
 <template>
   <v-container>
     <v-div class="d-flex justify-center">
-      <p>
         <h1>
           Bem Vindos a CRStore
         </h1>
-      </p>
     </v-div>
     <h5 class="d-flex justify-center">Abaixo estão os Produtos disponiveis</h5>
     <v-row class="mt-5">
       <v-col>
-    <v-card
-    class="mx-auto"
-    max-width="344"
-    outlined
+        <v-card
+        class="mx-auto"
+        max-width="344"
+        outlined
   >
+    </div>
     <v-list-item three-line>
       <v-list-item-content>
         <v-list-item-title class="text-h5 mb-1">
@@ -31,14 +30,14 @@
     <v-card-actions>
       <h3 class="mr-5">Preço:R$57.90</h3>
       <v-btn
-        outlined
-        rounded
-        text
+      outlined
+      rounded
+      color="green"
       ><v-icon>
         mdi-cart
       </v-icon>
-        Compre Agora
-      </v-btn>
+      Compre Agora
+    </v-btn>
     </v-card-actions>
   </v-card>
 </v-col>
@@ -67,7 +66,8 @@
       <v-btn
         outlined
         rounded
-        text
+        
+        color="green"
       ><v-icon>
         mdi-cart
       </v-icon>
@@ -98,7 +98,7 @@
       <v-btn
         outlined
         rounded
-        text
+        color="green"
       ><v-icon>
         mdi-cart
       </v-icon>
@@ -111,9 +111,10 @@
   </v-container>
 </template>
 
-<script>
-export default {
+<script >
 
+export default {
+  
 }
 </script>
 
