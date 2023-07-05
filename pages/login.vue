@@ -28,7 +28,10 @@
               @click:append="show1 = !show1"
               ></v-text-field>
               <v-btn class="mr-3">Entrar</v-btn>
-              <v-btn>Cadastrar </v-btn>
+              <v-btn
+              href="/admin/cadastro"
+              >Cadastrar 
+            </v-btn>
             </v-col>
           </v-row>
         </v-form>

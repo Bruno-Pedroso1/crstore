@@ -12,25 +12,108 @@
     </h5>
     <v-row class="mt-5">
       <v-col>
+        
         <v-dialog v-model="pagamentos">
           <v-card>
-        <v-text-field
-        v-model="pag"
+            Total= R${{ quantidade * preçotec}}
+        <v-autocomplete
+        v-model="name"
         class="mt-1"
+              :items="fp"
                 outlined
                 color="black"
                 placeholder="Forma de Pagamento"
                 label="Forma de Pagamento"
                 >
-              </v-text-field>
+              </v-autocomplete>
+
               <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
             color="green"
             block
+            @click="orders1=true, persist()"
+
+            >
+            Cadastrar Pagamento
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+      </v-dialog>
+        <v-dialog v-model="orders1">
+          <v-card>
+            <v-text-field
+                v-model="status"
+                :items="st"
+                outlined
+                color="green"
+                placeholder="Status do Pedido"
+                label="Status do Pedido"
+                disabled
+              >
+              </v-text-field>
+              <v-text-field
+                v-model="total"
+                disabled
+                outlined
+                color="green"
+                placeholder="Valor total do pedido"
+                label="Valor total do pedido"
+              >
+              </v-text-field>
+              <v-autocomplete
+                v-model="idUserCostumer"
+                outlined
+                color="green"
+                item-text="name"
+                item-value="id"
+                placeholder="ID do Comprador"
+                :items="usuario.filter(user => user.role === 'Comprador')"
+                label="Nome do Comprador"
+              >
+              </v-autocomplete>
+              <v-autocomplete
+                v-model="idUserDeliver"
+                outlined
+                item-text="name"
+                item-value="id"
+                :items="usuario.filter(user => user.role === 'Entregador')"
+                color="green"
+                placeholder="Nome do Entregador"
+                label="Nome do Entregador"
+              >
+              </v-autocomplete>
+              <v-autocomplete
+                v-model="idAdress"
+                item-value="id"
+                item-text="id"
+                :items="adress"
+                outlined
+                color="green"
+                placeholder="ID do Endereço"
+                label="ID do Endereço"
+              >
+              </v-autocomplete>
+              <v-autocomplete
+              v-model="idPayment"
+                item-value="id"
+                item-text="name"
+                :items="pagamento"
+                outlined
+                color="green"
+                placeholder="Forma do Pagamento"
+                label="Forma do Pagamento"
+                >
+              </v-autocomplete>
+              <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green"
+            block
+            @click="persistOrder"
 
           >
-            Cadastrar Pagamento
+            Cadastrar Pedido
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -48,7 +131,7 @@
                 label="Informe a quantidade"
                 >
               </v-text-field>
-              Total= R${{ quantidade * preçotec}}
+              Total= R${{ total }}
               <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
@@ -74,12 +157,13 @@
                 label="Informe a quantidade"
                 >
               </v-text-field>
-              Total= R${{ quantidade * preçomo}}
+              Total= R${{ total }}
               <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
             color="green"
             block
+            @click="pagamentos=true, dialog=false"
           >
             Comprar
           </v-btn>
@@ -99,12 +183,13 @@
                 label="Informe a quantidade"
                 >
               </v-text-field>
-              Total= R${{ quantidade * preçohed}}
+              Total= R${{ total }}
               <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
             color="green"
             block
+            @click="pagamentos=true, dialog=false"
           >
             Comprar
           </v-btn>
@@ -221,16 +306,77 @@ export default {
   data(){
     return{
       pag:null,
+      orders1: false,
       pagamentos:false,
       dialogo: false,
       dialogoo: false,
       quantidade: null,
       dialog: false,
-      total: null,
       preçotec: 170.00,
       preçohed: 70.00,
       preçomo: 57.90,
+      name: null,
+      idPayment: null,
+      search: null,
+      cupoms: [],
+      pagamento: [],
+      st: ['Pedido Realizado'],
+      items: [],
+      usuario: [],
+      idOrder: null,
+      total: null,
+      adress: [],
+      fp: ['PIX','Débito','Crédito', 'Dinheiro'],
+      status: 'Pedido Realizado',
+      headers: [
+        {
+          text: 'Nome',
+          value: 'name',
+          align: 'center'
+        },
+        {
+          text: 'Status',
+          value: 'status',
+          align: 'center'
+        },
+        {
+          text: 'Valor Total do pedido',
+          value: 'total',
+          align: 'center'
+        },
+        {
+          text: 'ID do Comprador',
+          value: 'idUserCostumer',
+          align: 'center'
+        },
+        {
+          text: 'ID do Endereço',
+          value: 'idAdress',
+          align: 'center'
+        },
+        {
+          text: 'ID do Pagamento',
+          value: 'idPayment',
+          align: 'center'
+        },
+
+        { text: "", value: "actions", filterable: false},
+      ]
     }
+  },
+
+  watch: {
+    quantidade() {
+      this.atribuiTotal();
+    }
+  },
+
+  async created() {
+    await this.getAllPayments();
+    await this.getAllOrders();
+    await this.getUsuarios();
+    await this.getAdress();
+    await this.getpag();
   },
 
   methods: {
@@ -239,8 +385,106 @@ export default {
       this.total = null;
       this.quantidade = null;
     },
-  }
-}
+    
+    async getAllPayments() {
+      try {
+        const response = await this.$api.get('/payments');
+        this.items = response.data;
+      } catch (error) {
+        this.$toast.error('Error')
+      }
+    },
+    async getpag() {
+      try {
+        const response = await this.$api.get('/payments');
+        this.pagamento = response.data;
+      } catch (error) {
+        this.$toast.error('Error')
+      }
+    },
+    async getUsuarios() {
+      try {
+        const response = await this.$api.get('/user');
+        this.usuario = response.data;
+      } catch (error) {
+        this.$toast.error('Error')
+      }
+    },
+    
+    async getAdress() {
+      try {
+        const response = await this.$api.get('/adresses');
+        this.adress = response.data;
+      } catch (error) {
+        this.$toast.error('Error')
+      }
+    },
+
+    async persistOrder() {
+      try {
+        const request = {
+          idCupom: this.idCupom,
+          idPayment: this.idPayment,
+          idAdress: this.idAdress,
+          idUserDeliver: this.idUserDeliver,
+          idUserCostumer: this.idUserCostumer,
+          totalDiscount: this.totalDiscount,
+          total: this.total,
+          status: 'Em Trânsito',
+        }
+        if (this.id) {
+          await this.$api.patch(`/orders/${this.id}`, request);
+          this.$toast.success('Pedido Editado')
+        }else {
+          await this.$api.post(`/orders`, request);
+          this.$toast.success('Pedido Cadastrado')
+        }
+        this.idCupom = null;
+        this.idPayment = null;
+        this.idAdress = null;
+        this.idUserCostumer = null;
+        this.idUserDeliver = null;
+        this.totalDiscount = null;
+        this.total = null;
+        this.status = 'Em trânsito';
+        this.idOrder = null;
+        await this.getAllOrders();
+      } catch (error) {
+        this.$toast.error('Erro')
+      }
+    },
+    async getAllOrders() {
+      try {
+        const response = await this.$api.get('/orders');
+        this.items = response.data;
+      } catch (error) {
+        this.$toast.error('Error')
+      }
+    },
+    async persist() {
+      try {
+        const request = {
+          name: this.name,
+        }
+        if (this.id) {
+          await this.$api.patch(`/payments/${this.id}`, request);
+          this.$toast.success('Pagamento Editado')
+        }else {
+          await this.$api.post(`/payments`, request);
+          this.$toast.success('Pagamento Cadastrado')
+        }
+        this.name = null;
+        await this.getAllPayments();
+      } catch (error) {
+        this.$toast.error('Erro')
+      }
+    },
+
+    atribuiTotal() {
+      this.total = this.quantidade * this.preçotec;
+    }
+    }
+    }
 </script>
 
 <style>

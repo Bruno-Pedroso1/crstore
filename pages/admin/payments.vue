@@ -167,6 +167,7 @@ export default {
         this.$toast.error('Erro')
       }
     },
+    
 
     async getAllUsers() {
       try {
@@ -176,6 +177,16 @@ export default {
         this.$toast.error('Error')
       }
     },
+
+    async getAllOrders() {
+      try {
+        const response = await this.$api.get('/orders');
+        this.items = response.data;
+      } catch (error) {
+        this.$toast.error('Error')
+      }
+    },
+
 
     async destroy(item) {
       try {
