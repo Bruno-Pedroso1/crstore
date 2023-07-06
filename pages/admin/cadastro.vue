@@ -79,6 +79,15 @@
           >
         </v-text-field>
     </v-col>  
+    <v-col>
+      <v-btn
+      block
+      color="red"
+      href="/login"
+      >
+    Já sou cadastrado
+  </v-btn>
+    </v-col>
       <v-col>
             <v-btn
             block
@@ -88,6 +97,7 @@
             Cadastrar
           </v-btn>
         </v-col>
+        
       </v-card>
       </v-col>
     </v-row>

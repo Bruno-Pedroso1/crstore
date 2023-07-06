@@ -153,10 +153,10 @@ export default {
           name: this.name,
         }
         if (this.id) {
-          await this.$api.patch(`/categories/${this.id}`, request);
+          await this.$api.patch(`/category/${this.id}`, request);
           this.$toast.success('Categoria Editada')
         }else {
-          await this.$api.post(`/categories`, request);
+          await this.$api.post(`/category`, request);
           this.$toast.success('Categoria Cadastrada')
         }
         this.name = null;
@@ -170,7 +170,7 @@ export default {
 
     async getAllUsers() {
       try {
-        const response = await this.$api.get('/categories');
+        const response = await this.$api.get('/category/get-all-categories');
         this.items = response.data;
       } catch (error) {
         this.$toast.error('Error')
@@ -179,7 +179,7 @@ export default {
 
     async destroy(item) {
       try {
-      await this.$api.delete(`/categories/destroy/${item.id}`);
+      await this.$api.delete(`/category/destroy/${item.id}`);
       await this.getAllUsers();
       this.$toast.success('Categoria Removida')
     }catch (error){
