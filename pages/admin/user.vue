@@ -329,7 +329,7 @@ export default {
 
     async destroy(item) {
       try {
-      await this.$api.delete(`/user/destroy/${item.id}`);
+      await this.$api.delete(`/users/delete/${item.id}`);
       await this.getAllUsers();
       this.$toast.success('Usuario Removido')
     }catch (error){

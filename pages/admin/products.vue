@@ -237,7 +237,7 @@ export default {
         this.dialog = false;
         await this.getAllUsers();
       } catch (error) {
-        this.$toast.error('Erro')
+        this.$toast.error('Erro1')
       }
     },
 
@@ -246,16 +246,16 @@ export default {
         const response = await this.$api.get('/products');
         this.items = response.data;
       } catch (error) {
-        this.$toast.error('Error')
+        this.$toast.error('Error1')
       }
     },
 
     async getAllCategories() {
       try {
-        const response = await this.$api.get('/categories');
+        const response = await this.$api.get('/category/get-all-categories');
         this.categorias = response.data;
       } catch (error) {
-        this.$toast.error('Error')
+        this.$toast.error('Err1or')
       }
     },
 

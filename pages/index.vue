@@ -68,7 +68,7 @@
                 item-text="name"
                 item-value="id"
                 placeholder="ID do Comprador"
-                :items="usuario.filter(user => user.role === 'Comprador')"
+                :items="user.filter(user => user.role === 'Comprador')"
                 label="Nome do Comprador"
               >
               </v-autocomplete>
@@ -77,7 +77,7 @@
                 outlined
                 item-text="name"
                 item-value="id"
-                :items="usuario.filter(user => user.role === 'Entregador')"
+                :items="user.filter(user => user.role === 'Entregador')"
                 color="green"
                 placeholder="Nome do Entregador"
                 label="Nome do Entregador"
@@ -87,7 +87,7 @@
                 v-model="idAdress"
                 item-value="id"
                 item-text="id"
-                :items="adress"
+                :items="adresses"
                 outlined
                 color="green"
                 placeholder="ID do Endereço"
@@ -98,7 +98,7 @@
               v-model="idPayment"
                 item-value="id"
                 item-text="name"
-                :items="pagamento"
+                :items="payments"
                 outlined
                 color="green"
                 placeholder="Forma do Pagamento"
@@ -322,10 +322,13 @@ export default {
       pagamento: [],
       st: ['Pedido Realizado'],
       items: [],
-      usuario: [],
+      user: [],
       idOrder: null,
       total: null,
+      payments: [],
+      adresses:[],
       adress: [],
+      ende: [],
       fp: ['PIX','Débito','Crédito', 'Dinheiro'],
       status: 'Pedido Realizado',
       headers: [
@@ -374,9 +377,10 @@ export default {
   async created() {
     await this.getAllPayments();
     await this.getAllOrders();
-    await this.getUsuarios();
-    await this.getAdress();
-    await this.getpag();
+    await this.getUsuario();
+    // await this.getpag();
+    await this.getPay()
+    await this.getAdress()
   },
 
   methods: {
@@ -391,34 +395,22 @@ export default {
         const response = await this.$api.get('/payments');
         this.items = response.data;
       } catch (error) {
-        this.$toast.error('Error')
+        this.$toast.error('Err8or')
       }
     },
-    async getpag() {
-      try {
-        const response = await this.$api.get('/payments');
-        this.pagamento = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
-    async getUsuarios() {
-      try {
-        const response = await this.$api.get('/user');
-        this.usuario = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
+    async getPay (){
+      const pagamento = await this.$api.$get(`/payments`)
+      this.payments = pagamento.data
+     },
+    async getUsuario (){
+      const usuario = await this.$api.$get(`/user`)
+      this.user = usuario.data
+     },
     
-    async getAdress() {
-      try {
-        const response = await this.$api.get('/adresses');
-        this.adress = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
+     async getAdress (){
+      const endereco = await this.$api.$get(`/adresses/`)
+      this.adresses = endereco.data
+     },
 
     async persistOrder() {
       try {
@@ -450,7 +442,7 @@ export default {
         this.idOrder = null;
         await this.getAllOrders();
       } catch (error) {
-        this.$toast.error('Erro')
+        this.$toast.error('E4rro')
       }
     },
     async getAllOrders() {
@@ -458,7 +450,7 @@ export default {
         const response = await this.$api.get('/orders');
         this.items = response.data;
       } catch (error) {
-        this.$toast.error('Error')
+        this.$toast.error('Erro3r')
       }
     },
     async persist() {
@@ -476,7 +468,7 @@ export default {
         this.name = null;
         await this.getAllPayments();
       } catch (error) {
-        this.$toast.error('Erro')
+        this.$toast.error('E2rro')
       }
     },
 

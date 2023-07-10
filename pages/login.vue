@@ -1,35 +1,40 @@
 <template>
   <v-container class="d-flex justify-center text-center">
     <v-form>
-      <img src="./admin/loja3.png" alt="" style="height: 10%;">
+      <img src="./admin/loja3.png" alt="" style="height: 15%;">
       <h1 style="height: 10%;">Faça seu login </h1>
       <v-text-field
-      style="width: 350px;"
-      solo
-      outlined 
-      label="E-mail"
-      >
-    </v-text-field>
-    <div id="app">
-      <v-app id="inspire">
+                  v-model="login.username"
+                  label="Username"
+                  outlined
+                  required
+                  placeholder="Username"
+                  color="red"
+                  prepend-inner-icon="mdi-email"
+                ></v-text-field>
+    <div>
         <v-form>
           <v-row>
             <v-col>
               <v-text-field
-              v-model="password"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              :rules="[rules.required, rules.min]"
-              :type="show1 ? 'text' : 'password'"
-              name="input-10-1"
-              label="Senha"
-              counter
-              solo
-              outlined
-              @click:append="show1 = !show1"
-              ></v-text-field>
-              <v-btn class="mr-3">Entrar</v-btn>
+                      v-model="login.password"
+                      label="Senha"
+                      style="margin-top: -8%"
+                      solo
+                      outlined
+                      placeholder="Senha"
+                      color="red"
+                      :append-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
+                      :type="show ? 'text' : 'password'"
+                      prepend-inner-icon="mdi-lock"
+                      @click:append="toggleShow"
+                    ></v-text-field>
+              <v-btn 
+              class="mr-3"
+              @click="logna"
+              >Entrar</v-btn>
               <v-btn
-              href="/admin/cadastro"
+              href="/cadastro"
               >Cadastrar 
             </v-btn>
             </v-col>
@@ -39,7 +44,6 @@
         class="mt-5"
         href="/"
         >Voltar a página inicial</v-btn>
-  </v-app>
 </div>
     </v-form>
 </v-container>
@@ -47,19 +51,45 @@
 
 <script>
 export default {
-  data () {
-    return {
-      show1: false,
-      show2: true,
-      password: 'Password',
-      rules: {
-        required: value => !!value || 'Campo Obrigatório.',
-        min: v => v.length >= 8 || 'Minimo 8 caracteres',
-        emailMatch: () => ('Usuário ou senha inválidos'),
+  data(){
+    return{
+      valid: false,
+      show:false,
+      login:{
+        username: null,
+        password: null
       },
+      rule: [
+        v => !!v || 'Esse campo é obrigatorio'
+      ]
     }
   },
+  methods:{
+    async logna(){
+      const forget ={
+        username: this.login.username,
+        password: this.login.password
+      }
+      try {
+        const response = await this.$api.post('/users/login', forget)
+        // eslint-disable-next-line eqeqeq
+        if(response.data.type == "sucess"){
+          localStorage.setItem("forget-key", response.data.data.token)
+          this.$toast.success("Você esta logado")
+          this.$router.push("/")
+        }else{
+          this.$toast.error(response.data.message)
+        }
+      } catch (error) {
+        this.$toast.error('Errol');
+      }
+    },
+    toggleShow(){
+      this.show = !this.show
+    },
+  }
 }
+
 
 </script>
 
