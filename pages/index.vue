@@ -110,7 +110,7 @@
           <v-btn
             color="green"
             block
-            @click="persistOrder"
+            @click="persistOrder()"
 
           >
             Cadastrar Pedido
@@ -441,6 +441,8 @@ export default {
         this.status = 'Em trânsito';
         this.idOrder = null;
         await this.getAllOrders();
+        await this.getAllPayments();
+        await this.getAdress();
       } catch (error) {
         this.$toast.error('E4rro')
       }

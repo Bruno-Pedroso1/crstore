@@ -65,12 +65,6 @@ export default {
           title: 'Página Inicial CRStore',
           to: '/',
         },
-        {
-          icon: 'mdi-shield-crown',
-          title: 'ADMIN CRStore',
-          to: '/admin/adminFront',
-        },
-
       ],
       miniVariant: false,
       right: true,
