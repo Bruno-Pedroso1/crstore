@@ -77,5 +77,9 @@ export default {
       title: 'CRStore',
     }
   },
+
+  methods: {
+    
+  }
 }
 </script>

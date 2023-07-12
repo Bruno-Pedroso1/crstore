@@ -97,7 +97,7 @@ export default {
         if(response.data.type == "sucess"){
           localStorage.setItem("forget-key", response.data.data.token)
           this.$toast.success("Login efetuado com sucesso")
-          this.$router.push("/admin/adminFront")
+          this.$router.push("/")
         }else{
           this.$toast.error(response.data.message)
         }
