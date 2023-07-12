@@ -174,7 +174,7 @@ export default {
     }
   },
   async created() {
-    await this.getAllUsers();
+    await this.getAllCupom();
   },
 
   methods: {
@@ -217,25 +217,21 @@ export default {
         this.uses = null;
         this.id = null;
         this.dialog = false;
-        await this.getAllUsers();
+        await this.getAllCupom();
       } catch (error) {
         this.$toast.error('Erro')
       }
     },
 
-    async getAllUsers() {
-      try {
-        const response = await this.$api.get('/cupoms');
-        this.items = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
+    async getAllCupom (){
+      const cumpom = await this.$api.$get(`/cupoms`)
+      this.items = cumpom.data
+     },
 
     async destroy(item) {
       try {
       await this.$api.delete(`/cupoms/destroy/${item.id}`);
-      await this.getAllUsers();
+      await this.getAllCupom();
       this.$toast.success('Cupom Removido')
     }catch (error){
       this.$toast.error('Erro ao remover cupom')

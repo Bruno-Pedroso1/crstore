@@ -131,7 +131,7 @@ export default {
     }
   },
   async created() {
-    await this.getAllUsers();
+    await this.getAllCategorias();
   },
 
   methods: {
@@ -162,25 +162,21 @@ export default {
         this.name = null;
         this.id = null;
         this.dialog = false;
-        await this.getAllUsers();
+        await this.getAllCategorias();
       } catch (error) {
         this.$toast.error('Erro')
       }
     },
 
-    async getAllUsers() {
-      try {
-        const response = await this.$api.get('/category/get-all-categories');
-        this.items = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
+    async getAllCategorias (){
+      const categoria = await this.$api.$get(`/category`)
+      this.items = categoria.data
+     },
 
     async destroy(item) {
       try {
       await this.$api.delete(`/category/destroy/${item.id}`);
-      await this.getAllUsers();
+      await this.getAllCategorias();
       this.$toast.success('Categoria Removida')
     }catch (error){
       this.$toast.error('Erro ao remover categoria')

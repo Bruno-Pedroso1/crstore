@@ -124,10 +124,10 @@
               </v-text-field>
               <v-autocomplete
                 v-model="idUser"
-                item-value="id"
-                item-text="name"
-                :items="usuario"
                 outlined
+                item-text="name"
+                item-value="id"
+                :items="usuario"
                 color="green"
                 placeholder="Nome do Usuário"
                 label="Nome do Usuário"
@@ -216,8 +216,8 @@ export default {
     }
   },
   async created() {
+    await this.getAllAdresses();
     await this.getAllUsers();
-    await this.getUsuario();
   },
 
   methods: {
@@ -271,40 +271,34 @@ export default {
         this.state = null;
         this.id = null;
         this.dialog = false;
-        await this.getAllUsers();
+        await this.getAllAdresses();
       } catch (error) {
         this.$toast.error('Erro')
       }
     },
 
-    async getAllUsers() {
-      try {
-        const response = await this.$api.get('/adresses');
-        this.items = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
-    async getUsuario() {
-      try {
-        const response = await this.$api.get('/user');
-        this.usuario = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
+    async getAllAdresses (){
+      const adress = await this.$api.$get(`/adresses`)
+      this.items = adress.data
+  },
+
+  async getAllUsers (){
+      const usuario = await this.$api.$get(`/user`)
+      this.usuario = usuario.data
+  },
+   },
 
     async destroy(item) {
       try {
       await this.$api.delete(`/adresses/destroy/${item.id}`);
-      await this.getAllUsers();
+      await this.getAllAdresses();
       this.$toast.success('Endereço Removido')
     }catch (error){
       this.$toast.error('Erro ao remover endereço')
     }
   },
  }
-}
+
 </script>
 
 <style>

@@ -106,7 +106,7 @@
                 item-text="name"
                 item-value="id"
                 placeholder="ID do Comprador"
-                :items="usuario.filter(user => user.role === 'Comprador')"
+                :items="usuario.filter(user => user.role === 'customer')"
                 label="Nome do Comprador"
               >
               </v-autocomplete>
@@ -115,7 +115,7 @@
                 outlined
                 item-text="name"
                 item-value="id"
-                :items="usuario.filter(user => user.role === 'Entregador')"
+                :items="usuario.filter(usuario => usuario.role === 'deliver')"
                 color="green"
                 placeholder="Nome do Entregador"
                 label="Nome do Entregador"
@@ -136,7 +136,7 @@
                 v-model="idPayment"
                 item-value="id"
                 item-text="id"
-                :items="pagamento"
+                :items="payments"
                 outlined
                 color="green"
                 placeholder="ID do Pagamento"
@@ -190,6 +190,7 @@ export default {
       dialog: false,
       idOrder: null,
       name: null,
+      payments: [],
       adress: [],
 
       headers: [
@@ -311,48 +312,28 @@ export default {
       }
     },
 
-    async getAllOrders() {
-      try {
-        const response = await this.$api.get('/orders');
-        this.items = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
+    async getAllOrders (){
+      const order = await this.$api.$get(`/orders`)
+      this.items = order.data
+  },
 
-    async getUsuarios() {
-      try {
-        const response = await this.$api.get('/user');
-        this.usuario = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
-    async getAdress() {
-      try {
-        const response = await this.$api.get('/adresses');
-        this.adress = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
+  async getUsuarios (){
+      const usuario = await this.$api.$get(`/user`)
+      this.usuario = usuario.data
+  },
+  async getAdress (){
+      const adress = await this.$api.$get(`/adresses`)
+      this.adress = adress.data
+  },
 
-    async getPayment() {
-      try {
-        const response = await this.$api.get('/payments');
-        this.pagamento = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
-    async getCupom() {
-      try {
-        const response = await this.$api.get('/cupoms');
-        this.cupoms = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
+  async getPayment (){
+      const payments = await this.$api.$get(`/payments`)
+      this.payments = payments.data
+  },
+  async getCupom (){
+      const cupoms = await this.$api.$get(`/cupoms`)
+      this.cupoms = cupoms.data
+  },
     // async getAllProductsOrder() {
     //   try {
     //     const response = await this.$api.get('/order-products/');

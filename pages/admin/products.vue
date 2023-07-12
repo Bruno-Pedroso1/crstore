@@ -110,7 +110,7 @@
                 v-model="idCategories"
                 item-text="name"
                 item-value="id"
-                :items="categorias"
+                :items="arr"
                 outlined
                 color="green"
                 placeholder="ID da Categoria"
@@ -151,7 +151,7 @@ export default {
       image: null,
       price: null,
       name: null,
-      categorias: [],
+      arr: [],
       headers: [
         {
           text: 'ID',
@@ -188,7 +188,7 @@ export default {
     }
   },
   async created() {
-    await this.getAllUsers();
+    await this.getAllProducts();
     await this.getAllCategories();
   },
 
@@ -235,34 +235,26 @@ export default {
         this.image = null;
         this.price = null;
         this.dialog = false;
-        await this.getAllUsers();
+        await this.getAllProducts();
       } catch (error) {
         this.$toast.error('Erro1')
       }
     },
 
-    async getAllUsers() {
-      try {
-        const response = await this.$api.get('/products');
-        this.items = response.data;
-      } catch (error) {
-        this.$toast.error('Error1')
-      }
-    },
+    async getAllProducts (){
+      const products = await this.$api.$get(`/products`)
+      this.items = products.data
+  },
 
-    async getAllCategories() {
-      try {
-        const response = await this.$api.get('/category/get-all-categories');
-        this.categorias = response.data;
-      } catch (error) {
-        this.$toast.error('Err1or')
-      }
-    },
+  async getAllCategories (){
+      const categorias = await this.$api.$get(`/category`)
+      this.arr = categorias.data
+  },
 
     async destroy(item) {
       try {
       await this.$api.delete(`/products/destroy/${item.id}`);
-      await this.getAllUsers();
+      await this.getAllProducts();
       this.$toast.success('Produto Removido')
     }catch (error){
       this.$toast.error('Erro ao remover produto')

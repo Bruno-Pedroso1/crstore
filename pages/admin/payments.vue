@@ -131,7 +131,7 @@ export default {
     }
   },
   async created() {
-    await this.getAllUsers();
+    await this.getAllPayments();
   },
 
   methods: {
@@ -162,36 +162,22 @@ export default {
         this.name = null;
         this.id = null;
         this.dialog = false;
-        await this.getAllUsers();
+        await this.getAllPayments();
       } catch (error) {
         this.$toast.error('Erro')
       }
     },
     
 
-    async getAllUsers() {
-      try {
-        const response = await this.$api.get('/payments');
-        this.items = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
-
-    async getAllOrders() {
-      try {
-        const response = await this.$api.get('/orders');
-        this.items = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
-
+    async getAllPayments (){
+      const payments = await this.$api.$get(`/payments`)
+      this.items = payments.data
+     },
 
     async destroy(item) {
       try {
       await this.$api.delete(`/payments/destroy/${item.id}`);
-      await this.getAllUsers();
+      await this.getAllPayments();
       this.$toast.success('Pagamento Removido')
     }catch (error){
       this.$toast.error('Erro ao remover Pagamento')
