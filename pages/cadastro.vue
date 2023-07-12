@@ -1,6 +1,9 @@
 <template>
   <v-container>
-    <v-form v-model="valid">
+    <v-form
+    v-model="valid"
+    @submit.prevent="register"
+    >
     <v-row>
       <v-col>
         <v-row class="text-center">
@@ -17,6 +20,7 @@
           <v-row>
             <v-col>
               <v-text-field
+              
               v-model="user.name"
                   outlined
                   label="Nome Completo"
@@ -24,8 +28,8 @@
                   placeholder="Nome Completo"
                   color="red"
                   prepend-inner-icon="mdi-email"
-                  
                   :rules="[rule.password]"
+                  @keyup.enter="register"
                 ></v-text-field>
             <v-text-field
                   v-model="user.username"
@@ -34,8 +38,8 @@
                   placeholder="Nome de Usuário"
                   color="red"
                   prepend-inner-icon="mdi-account"
-                  
                   :rules="[rule.password]"
+                  @keyup.enter="register"
                 ></v-text-field>
                 <v-text-field
                   v-model="user.cpf"
@@ -45,22 +49,22 @@
                   placeholder="CPF"
                   color="red"
                   prepend-inner-icon="mdi-lock"
-                  
                   :rules="[rule.password]"
+                  @keyup.enter="register"
                 ></v-text-field>
             </v-col>
             <v-col>
               <v-text-field
               v-model="user.phone"
-              v-mask="['(##) # ####-####', '(##) ####-####']"
+              v-mask="['(##)#####-####', '(##) ####-####']"
                   outlined
                   label="Celular"
                   style="margin-top: -8%"
                   placeholder="Celular"
                   color="red"
                   prepend-inner-icon="mdi-cellphone"
-                  
                   :rules="[rule.password]"
+                  @keyup.enter="register"
                 ></v-text-field>
                 <v-autocomplete
                 v-model="user.role"
@@ -71,9 +75,9 @@
                     item-text="name"
                     item-value="value"
                     clearable
-                    
                     :rules="[rule.password]"
-                  >
+                    @keyup.enter="register"
+                    >
                   </v-autocomplete>
             <v-text-field
             v-model="user.email"
@@ -83,8 +87,8 @@
                   placeholder="Email"
                   color="red"
                   prepend-inner-icon="mdi-mail"
-                  
                   :rules="[rule.password]"
+                  @keyup.enter="register"
                 ></v-text-field>
         </v-col>
       </v-row>
@@ -97,10 +101,11 @@
                   color="red"
                   prepend-inner-icon="mdi-lock"
                   :append-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
-                  
                   :type="show ? 'text' : 'password'"
                   :rules="[rule.password]"
+                  @keyup.enter="register"
                   @click:append="toggleShow"
+                  
                 ></v-text-field>
     </v-col>  
     <v-col>
@@ -148,9 +153,9 @@ export default {
         cpf:null,
       },
       rule:{
-        // password: v => !!v || 'Esse campo é obrigatorio',
+        password: v => !!v || 'Esse campo é obrigatorio',
       },
-      roles: [{"name": "Cliente", "value": "customer"}, {"name": "Entregador", "value": "deliver"}]
+      roles: [{"name": "Cliente", "value": "customer"}, {"name": "Entregador", "value": "deliver"}, {"name": "Admin", "value": "admin"}]
     }
   },
   methods: {
@@ -173,7 +178,7 @@ export default {
         // eslint-disable-next-line eqeqeq
         if(response.type == "sucess"){
           this.$toast.success(response.message)
-          return this.$router.push({ name: 'public-login' });
+          return this.$router.push({ name: 'login' });
         }
         return this.$toast.error(response.message) 
       } catch (error) {

@@ -182,7 +182,7 @@ export default {
   name: 'Index',
   data () {
     return {
-      rolea: ['Comprador', 'Entregador'],
+      rolea: ['admin', 'deliver', 'customer'],
       search: null,
       items: [],
       dialog: false,
@@ -290,7 +290,6 @@ export default {
 
     async persist() {
       try {
-        this.clear();
         const request = {
           name: this.name,
           cpf: this.cpf,
@@ -304,28 +303,23 @@ export default {
           recuperation: this.recuperation
         }
         if (this.id) {
-          await this.$api.patch(`/user/${this.id}`, request);
+          await this.$api.patch(`/users/${this.id}`, request);
           this.$toast.success('Usuario Editado')
         }else {
-          await this.$api.post(`/user/`, request);
+          await this.$api.post(`/users/`, request);
           this.$toast.success('Usuario Cadastrado')
         }
-        this.clear();
         this.dialog = false;
         await this.getAllUsers();
       } catch (error) {
-        this.$toast.error('Erro')
+        this.$toast.error('1Erro')
       }
     },
 
-    async getAllUsers() {
-      try {
-        const response = await this.$api.get('/user');
-        this.items = response.data;
-      } catch (error) {
-        this.$toast.error('Error')
-      }
-    },
+    async getAllUsers (){
+      const users = await this.$api.$get(`/user`)
+      this.items = users.data
+     },
 
     async destroy(item) {
       try {
