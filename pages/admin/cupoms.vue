@@ -225,7 +225,7 @@ export default {
 
     async getAllCupom (){
       const cumpom = await this.$api.$get(`/cupoms`)
-      this.items = cumpom.data
+      this.items = cumpom
      },
 
     async destroy(item) {

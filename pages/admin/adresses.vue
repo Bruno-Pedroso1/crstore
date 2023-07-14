@@ -279,12 +279,12 @@ export default {
 
     async getAllAdresses (){
       const adress = await this.$api.$get(`/adresses`)
-      this.items = adress.data
+      this.items = adress
   },
 
   async getAllUsers (){
       const usuario = await this.$api.$get(`/user`)
-      this.usuario = usuario.data
+      this.usuario = usuario
   },
    },
 

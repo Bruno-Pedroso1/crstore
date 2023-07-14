@@ -4,10 +4,14 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1 class="d-flex align-center flex-column">
+        <h1
+          class="d-flex align-center flex-column"
+        >
           Cadastro de Pedidos
         </h1>
-        <v-row class="d-flex align-center flex column">
+        <v-row
+          class="d-flex align-center flex column"
+        >
         <v-btn
           fab
           small
@@ -21,9 +25,12 @@
       </v-row>
       </v-col>
     </v-row>
-  
-    <v-row class="d-flex align-center flex-column">
-      <v-card width="900">
+    <v-row 
+      class="d-flex align-center flex-column"
+    >
+      <v-card
+        width="900"
+      >
         <v-card-title>
           <v-text-field
             v-model="search"
@@ -31,14 +38,17 @@
             label="Search"
             single-line
             hide-details
-          ></v-text-field>
+          >
+          </v-text-field>
         </v-card-title>
         <v-data-table
           :headers="headers"
           :items="items"
           :search="search"
         >
-          <template v-slot:item.actions="{ item }">
+          <template
+            #item:actions="{ item }"
+          >
             <v-icon
               small
               color="green"
@@ -52,17 +62,20 @@
               @click="destroy(item)"
             >
               mdi-delete
-            </v-icon>
-            
+            </v-icon>            
           </template>
         </v-data-table>
       </v-card>
     </v-row>
-    <v-dialog v-model="dialog">
+    <v-dialog
+      v-model="dialog"
+    >
       <v-card>
         <v-card-title>
           <v-row>
-            <v-col cols="2">
+            <v-col
+              cols="2"
+            >
               <v-text-field
                 v-model="idOrder"
                 outlined
@@ -99,14 +112,14 @@
                 label="Valor do desconto"
               >
               </v-text-field>
-              <v-autocomplete
+              <!-- <v-autocomplete
                 v-model="idUserCostumer"
                 outlined
                 color="green"
                 item-text="name"
                 item-value="id"
                 placeholder="ID do Comprador"
-                :items="usuario.filter(user => user.role === 'customer')"
+                :items="user.filter(user => user.role === 'Comprador')"
                 label="Nome do Comprador"
               >
               </v-autocomplete>
@@ -115,12 +128,12 @@
                 outlined
                 item-text="name"
                 item-value="id"
-                :items="usuario.filter(usuario => usuario.role === 'deliver')"
+                :items="user.filter(user => user.role === 'Entregador')"
                 color="green"
                 placeholder="Nome do Entregador"
                 label="Nome do Entregador"
               >
-              </v-autocomplete>
+              </v-autocomplete> -->
               <v-autocomplete
                 v-model="idAdress"
                 item-value="id"
@@ -154,22 +167,19 @@
                 label="Código do Cupom"
               >
               </v-autocomplete>
-
             </v-col>
           </v-row>
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="green"
-            @click="persist"
-          >
-            Salvar
+            <v-btn
+              color="green"
+              @click="persist"
+            >
+              Salvar
           </v-btn>
         </v-card-actions>
-        
       </v-card>
-      
     </v-dialog>
   </v-container>
   
@@ -179,6 +189,7 @@
 
 export default {
   name: 'Index',
+
   data () {
     return {
       search: null,
@@ -191,8 +202,9 @@ export default {
       idOrder: null,
       name: null,
       payments: [],
+      order: null,
       adress: [],
-
+      user: {},
       headers: [
         {
           text: 'ID',
@@ -243,6 +255,7 @@ export default {
       ]
     }
   },
+
   async created() {
     await this.getAllOrders();
     await this.getUsuarios();
@@ -280,14 +293,14 @@ export default {
     async persist() {
       try {
         const request = {
-          idCupom: this.idCupom,
-          idPayment: this.idPayment,
-          idAdress: this.idAdress,
-          idUserDeliver: this.idUserDeliver,
-          idUserCostumer: this.idUserCostumer,
-          totalDiscount: this.totalDiscount,
-          total: this.total,
           status: this.status,
+          total: this.total,
+          totalDiscount: this.totalDiscount,
+          idUserCostumer: this.idUserCostumer,
+          idUserDeliver: this.idUserDeliver,
+          idAdress: this.idAdress,
+          idPayment: this.idPayment,
+          idCupom: this.idCupom,
         }
         if (this.id) {
           await this.$api.patch(`/orders/${this.id}`, request);
@@ -313,45 +326,45 @@ export default {
     },
 
     async getAllOrders (){
-      const order = await this.$api.$get(`/orders`)
-      this.items = order.data
-  },
+      try {
+        const order = await this.$api.$get(`/orders`);
+        this.items = order;
+      } catch (error) {
+        return this.$toast.error('Erro');
+      }
+    },
 
-  async getUsuarios (){
-      const usuario = await this.$api.$get(`/user`)
-      this.usuario = usuario.data
-  },
-  async getAdress (){
-      const adress = await this.$api.$get(`/adresses`)
-      this.adress = adress.data
-  },
+    async getUsuarios (){
+      try {
+        const user = await this.$api.$get(`/user`)
+        this.user = user
+      } catch (error) {
+        return this.$toast.error(error.message);
+      }
+    },
+    async getAdress (){
+        const adress = await this.$api.$get(`/adresses`)
+        this.adress = adress
+    },
+    async getPayment (){
+        const payments = await this.$api.$get(`/payments`)
+        this.payments = payments
+    },
+    async getCupom (){
+        const cupoms = await this.$api.$get(`/cupoms`)
+        this.cupoms = cupoms
+    },
 
-  async getPayment (){
-      const payments = await this.$api.$get(`/payments`)
-      this.payments = payments.data
-  },
-  async getCupom (){
-      const cupoms = await this.$api.$get(`/cupoms`)
-      this.cupoms = cupoms.data
-  },
-    // async getAllProductsOrder() {
-    //   try {
-    //     const response = await this.$api.get('/order-products/');
-    //     this.itemsOrder = response.data; 
-    //   } catch (error) {
-    //     this.$toast.error('Error')
-    //   }
-    // },
     async destroy(item) {
       try {
-      await this.$api.delete(`/orders/destroy/${item.id}`);
-      await this.getAllOrders();
-      this.$toast.success('Pedido Removido')
-    }catch (error){
-      this.$toast.error('Erro ao remover pedido')
-    }
-  },
- }
+        await this.$api.delete(`/orders/destroy/${item.id}`);
+        await this.getAllOrders();
+        this.$toast.success('Pedido Removido')
+      } catch (error){
+        this.$toast.error('Erro ao remover pedido')
+      }
+    },
+}
 }
 </script>
 

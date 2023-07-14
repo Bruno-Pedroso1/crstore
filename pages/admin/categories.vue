@@ -170,7 +170,7 @@ export default {
 
     async getAllCategorias (){
       const categoria = await this.$api.$get(`/category`)
-      this.items = categoria.data
+      this.items = categoria
      },
 
     async destroy(item) {

@@ -315,12 +315,10 @@ export default {
         this.$toast.error('1Erro')
       }
     },
-
     async getAllUsers (){
       const users = await this.$api.$get(`/user`)
-      this.items = users.data
-     },
-
+      this.items = users
+    },
     async destroy(item) {
       try {
       await this.$api.delete(`/users/delete/${item.id}`);

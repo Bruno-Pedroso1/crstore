@@ -71,6 +71,8 @@
 
 <script>
 export default {
+  name: 'Login',
+
   data(){
     return{
       valid: false,
@@ -85,19 +87,18 @@ export default {
     }
   },
   methods:{
-
-    async logna(){
-      const forget ={
+    async logna() {
+      const forget = {
         username: this.login.username,
         password: this.login.password
       }
       try {
-        const response = await this.$api.post('/users/login', forget)
+        const response = await this.$api.post('/users/login', forget);
         // eslint-disable-next-line eqeqeq
-        if(response.data.type == "sucess"){
-          localStorage.setItem("forget-key", response.data.data.token)
-          this.$toast.success("Login efetuado com sucesso")
-          this.$router.push("/")
+        if(response.type == "success"){
+          localStorage.setItem("forget-key", response.data.token);
+          this.$toast.success(response.message);
+          this.$router.push("/");
         }else{
           this.$toast.error(response.data.message)
         }
@@ -105,6 +106,7 @@ export default {
         this.$toast.error('Errol');
       }
     },
+
     toggleShow(){
       this.show = !this.show
     },

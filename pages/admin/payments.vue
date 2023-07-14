@@ -171,7 +171,7 @@ export default {
 
     async getAllPayments (){
       const payments = await this.$api.$get(`/payments`)
-      this.items = payments.data
+      this.items = payments
      },
 
     async destroy(item) {

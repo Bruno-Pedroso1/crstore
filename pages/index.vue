@@ -62,28 +62,6 @@
               >
               </v-text-field>
               <v-autocomplete
-                v-model="idUserCostumer"
-                outlined
-                color="green"
-                item-text="name"
-                item-value="id"
-                placeholder="ID do Comprador"
-                :items="user.filter(user => user.role === 'Comprador')"
-                label="Nome do Comprador"
-              >
-              </v-autocomplete>
-              <v-autocomplete
-                v-model="idUserDeliver"
-                outlined
-                item-text="name"
-                item-value="id"
-                :items="user.filter(user => user.role === 'Entregador')"
-                color="green"
-                placeholder="Nome do Entregador"
-                label="Nome do Entregador"
-              >
-              </v-autocomplete>
-              <v-autocomplete
                 v-model="idAdress"
                 item-value="id"
                 item-text="id"
@@ -313,8 +291,6 @@ export default {
       quantidade: null,
       dialog: false,
       preçotec: 170.00,
-      preçohed: 70.00,
-      preçomo: 57.90,
       name: null,
       idPayment: null,
       search: null,
@@ -322,7 +298,7 @@ export default {
       pagamento: [],
       st: ['Pedido Realizado'],
       items: [],
-      user: [],
+      user: {},
       idOrder: null,
       total: null,
       payments: [],
@@ -375,9 +351,9 @@ export default {
   },
 
   async created() {
+    await this.getUsuario();
     await this.getAllPayments();
     await this.getAllOrders();
-    await this.getUsuario();
     // await this.getpag();
     await this.getPay()
     await this.getAdress()
@@ -401,16 +377,20 @@ export default {
     async getPay (){
       const pagamento = await this.$api.$get(`/payments`)
       this.payments = pagamento.data
-     },
+    },
+
     async getUsuario (){
-      const usuario = await this.$api.$get(`/user`)
-      this.user = usuario.data
-     },
+      const usuario = await this.$api.$get(`/users/by-token`);
+      if(usuario) {
+        this.user = usuario.data;
+        this.$router.push('/');
+      }
+    },
     
-     async getAdress (){
+    async getAdress (){
       const endereco = await this.$api.$get(`/adresses/`)
       this.adresses = endereco.data
-     },
+    },
 
     async persistOrder() {
       try {
@@ -418,8 +398,8 @@ export default {
           idCupom: this.idCupom,
           idPayment: this.idPayment,
           idAdress: this.idAdress,
-          idUserDeliver: this.idUserDeliver,
-          idUserCostumer: this.idUserCostumer,
+          idUserDeliver: null,
+          idUserCostumer: this.user.id,
           totalDiscount: this.totalDiscount,
           total: this.total,
           status: 'Em Trânsito',
@@ -434,15 +414,10 @@ export default {
         this.idCupom = null;
         this.idPayment = null;
         this.idAdress = null;
-        this.idUserCostumer = null;
-        this.idUserDeliver = null;
         this.totalDiscount = null;
         this.total = null;
         this.status = 'Em trânsito';
         this.idOrder = null;
-        await this.getAllOrders();
-        await this.getAllPayments();
-        await this.getAdress();
       } catch (error) {
         this.$toast.error('E4rro')
       }

@@ -243,12 +243,12 @@ export default {
 
     async getAllProducts (){
       const products = await this.$api.$get(`/products`)
-      this.items = products.data
+      this.items = products
   },
 
   async getAllCategories (){
       const categorias = await this.$api.$get(`/category`)
-      this.arr = categorias.data
+      this.arr = categorias
   },
 
     async destroy(item) {
