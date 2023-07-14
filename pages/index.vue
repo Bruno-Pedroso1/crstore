@@ -1,6 +1,8 @@
 <template>
   <v-container>
-    <v-div class="d-flex justify-center">
+    <v-div
+      class="d-flex justify-center"
+    >
         <h1>
           Bem Vindos a CRStore
         </h1>
@@ -8,32 +10,31 @@
     <h5
     class="d-flex justify-center"
     >Abaixo estão os Produtos disponiveis
-
     </h5>
-    <v-row class="mt-5">
+    <v-row
+      class="mt-5"
+    >
       <v-col>
         
         <v-dialog v-model="pagamentos">
           <v-card>
             Total= R${{ quantidade * preçotec}}
         <v-autocomplete
-        v-model="name"
-        class="mt-1"
-              :items="fp"
-                outlined
-                color="black"
-                placeholder="Forma de Pagamento"
-                label="Forma de Pagamento"
-                >
-              </v-autocomplete>
-
-              <v-card-actions>
+          v-model="name"
+          class="mt-1"
+          :items="fp"
+          outlined
+          color="black"
+          placeholder="Forma de Pagamento"
+          label="Forma de Pagamento"
+        >
+        </v-autocomplete>
+        <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
             color="green"
             block
             @click="orders1=true, persist()"
-
             >
             Cadastrar Pagamento
           </v-btn>
@@ -73,7 +74,7 @@
               >
               </v-autocomplete>
               <v-autocomplete
-              v-model="idPayment"
+                v-model="idPayment"
                 item-value="id"
                 item-text="name"
                 :items="payments"
@@ -81,7 +82,7 @@
                 color="green"
                 placeholder="Forma do Pagamento"
                 label="Forma do Pagamento"
-                >
+              >
               </v-autocomplete>
               <v-card-actions>
           <v-spacer></v-spacer>
@@ -89,7 +90,6 @@
             color="green"
             block
             @click="persistOrder()"
-
           >
             Cadastrar Pedido
           </v-btn>
@@ -175,6 +175,7 @@
       </v-card>
         </v-dialog>
         <v-card
+        rounded="xl"
         class="mx-auto"
         max-width="344"
         outlined
@@ -210,30 +211,35 @@
 </v-col>
 <v-col>
   <v-card
+    rounded="xl"
     class="mx-auto"
     max-width="344"
     outlined
     >
     <v-list-item three-line>
       <v-list-item-content>
-        <v-list-item-title class="text-h5 mb-1">
+        <v-list-item-title
+          class="text-h5 mb-1"
+        >
           Teclado Gamer
         </v-list-item-title>
         <v-list-item-subtitle>Teclado Mecânico Gamer Switch Blue Led Rgb 7 Cores Rainbow </v-list-item-subtitle>
-        <v-img
-        height="300" 
-        src="https://m.media-amazon.com/images/I/61Tn5a431IL._AC_UL400_.jpg"/>
+          <v-img
+            height="300" 
+              src="https://m.media-amazon.com/images/I/61Tn5a431IL._AC_UL400_.jpg"
+            />
       </v-list-item-content>
     </v-list-item>
     <v-card-actions>
 <h4>Preço: R$ {{ preçotec }} </h4>
       <v-btn
-      class="ml-5"
+        class="ml-5"
         outlined
         rounded
         color="green"
         @click="dialog=true;clear()"
-        ><v-icon>
+        >
+        <v-icon>
           mdi-cart
         </v-icon>
         Compre Agora
@@ -243,6 +249,7 @@
 </v-col>
 <v-col>
   <v-card
+    rounded="xl"
     class="mx-auto"
     max-width="344"
     outlined

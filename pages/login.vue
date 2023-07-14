@@ -19,7 +19,7 @@
       placeholder="Username"
       color="red"
       prepend-inner-icon="mdi-email"
-      >
+    >
     </v-text-field>
     <div>
       <v-form
@@ -39,31 +39,27 @@
               :type="show ? 'text' : 'password'"
               prepend-inner-icon="mdi-lock"
               @click:append="toggleShow"
-              >
-              </v-text-field>
-
+            >
+            </v-text-field>
             <v-btn 
               class="mr-3"
               @click="logna"
-              >Entrar
+            >
+              Entrar
             </v-btn>
-
             <v-btn
               href="/cadastro"
               >Cadastrar 
             </v-btn>
-
           </v-col>
         </v-row>
       </v-form>
-    
       <v-btn 
         class="mt-5"
         href="/"
-        >
+      >
         Voltar a página inicial
       </v-btn>
-
   </div>
     </v-form>
   </v-container>
@@ -72,6 +68,7 @@
 <script>
 export default {
   name: 'Login',
+  layout: 'login',
 
   data(){
     return{
@@ -103,7 +100,7 @@ export default {
           this.$toast.error(response.data.message)
         }
       } catch (error) {
-        this.$toast.error('Errol');
+        this.$toast.error('Usuario ou senha incorretos');
       }
     },
 

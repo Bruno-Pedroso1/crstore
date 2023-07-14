@@ -4,16 +4,20 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1 class="d-flex align-center flex-column">
+        <h1
+          class="d-flex align-center flex-column"
+        >
           Cadastro de Categorias
         </h1>
-        <v-row class="d-flex align-center flex column">
-        <v-btn
-          fab
-          small
-          color="green"
-          @click="dialog = true; clear()"
+        <v-row
+        class="d-flex align-center flex column"
         >
+          <v-btn
+            fab
+            small
+            color="green"
+            @click="dialog = true; clear()"
+          >
           <v-icon>
             mdi-plus
           </v-icon>
@@ -21,9 +25,12 @@
       </v-row>
       </v-col>
     </v-row>
-  
-    <v-row class="d-flex align-center flex-column">
-      <v-card width="900">
+    <v-row
+      class="d-flex align-center flex-column"
+    >
+      <v-card
+        width="900"
+      >
         <v-card-title>
           <v-text-field
             v-model="search"
@@ -31,7 +38,8 @@
             label="Search"
             single-line
             hide-details
-          ></v-text-field>
+          >
+        </v-text-field>
         </v-card-title>
         <v-data-table
           :headers="headers"
@@ -44,7 +52,6 @@
               color="green"
               @click="update(item)"
               @click.ctrl="$toast.info('quem leu é corno')"
-            
             >
               mdi-pencil
             </v-icon>
@@ -55,12 +62,13 @@
             >
               mdi-delete
             </v-icon>
-            
           </template>
         </v-data-table>
       </v-card>
     </v-row>
-    <v-dialog v-model="dialog">
+    <v-dialog
+      v-model="dialog"
+    >
       <v-card>
         <v-card-title>
           <v-row>
@@ -92,16 +100,14 @@
           <v-btn
             color="green"
             @click="persist"
+            @keyup.enter="persist"
           >
             Salvar
           </v-btn>
         </v-card-actions>
-        
       </v-card>
-      
     </v-dialog>
   </v-container>
-  
 </template>
 
 <script>
@@ -171,7 +177,7 @@ export default {
     async getAllCategorias (){
       const categoria = await this.$api.$get(`/category`)
       this.items = categoria
-     },
+    },
 
     async destroy(item) {
       try {
@@ -182,8 +188,7 @@ export default {
       this.$toast.error('Erro ao remover categoria')
     }
   },
-
- }
+}
 }
 </script>
 

@@ -36,25 +36,21 @@
     <v-app-bar-nav-icon 
       @click.stop="drawer = !drawer"
     />
-    <v-btn
-      icon @click.stop="miniVariant = !miniVariant"
-    >
-      <v-icon>
-        mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}
-      </v-icon>
-    </v-btn>
     <v-spacer></v-spacer>
-      Bem Vindo {{ user.name }}
+      <p v-if="logado"
+      >
+        Bem Vindo {{ user.name }}
+      </p>
     <v-spacer/>
         <v-btn
-          v-if="logado && $route.path !== '/login'"
-          @click="sairConta"
+        v-if="logado && $route.path !== '/login'"
+        @click="sairConta"
         >
-          sair
-        </v-btn>
+        sair
+      </v-btn>
       <v-btn
-        v-if="!logado && $route.path !== '/login'"
-        to="/login"
+      v-if="!logado && $route.path !== '/login'"
+      to="/login"
       >
         fazer login
       </v-btn>
@@ -92,11 +88,6 @@ export default {
         title: 'Página Inicial CRStore',
         to: '/',
       },
-      {
-        icon: 'mdi-shield-crown',
-        title: 'ADMIN CRStore',
-        to: '/admin/adminFront'
-      }
       ],
       miniVariant: false,
       right: true,
@@ -104,7 +95,7 @@ export default {
       title: 'CRStore',
     }
   },
-  
+
   async created() {
     await this.getUserByToken();
   },
@@ -119,18 +110,36 @@ export default {
           name: data.name,
         };
         this.logado = true;
-        if(!(this.user.role) || this.user.role !== 'admin') {
-          this.items.pop();
-        };
+        if(this.user.role === 'admin') {
+          this.items.push(
+            {
+        icon: 'mdi-shield-crown',
+        title: 'ADMIN CRStore',
+        to: '/admin/adminFront' 
       }
-    },
+          );
+        };
+        if (this.user.role !== 'admin') {
+          this.items.push({
+            icon: 'mdi-account',
+            title: 'Meus Dados',
+            to:'/dados'
+          })
+        }
+        // window.location.reload(true)
+        }
+      },
+
+
+      recarregar(){
+        window.location.reload()
+      },
+
     sairConta() {
       this.logado = false;
       localStorage.removeItem('forget-key');
       this.$router.push('/login');
     },
   },
-
-
   }
 </script>
