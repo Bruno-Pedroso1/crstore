@@ -46,7 +46,7 @@
           :items="items"
           :search="search"
         >
-          <template v-slot:item.actions="{ item }">
+          <template #item.actions="{ item }">
             <v-icon
               small
               color="green"
